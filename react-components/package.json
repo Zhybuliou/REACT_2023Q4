@@ -40,23 +40,12 @@
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-react-refresh": "^0.4.3",
-    "husky": "^8.0.0",
+    "husky": "^8.0.3",
     "jsdom": "^22.1.0",
     "lint-staged": "^15.0.2",
     "prettier": "^3.0.3",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
     "vitest": "^0.34.6"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "Hook!!!!!!!!!!"
-    }
-  },
-  "lint-staged": {
-    "*.{ts, tsx, html, css, scss}": [
-      "npm run format:fix",
-      "git add"
-    ]
   }
 }
