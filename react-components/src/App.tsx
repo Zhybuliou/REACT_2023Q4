@@ -1,11 +1,9 @@
 import './App.css';
 import { PureComponent } from 'react';
 
+console.log('hello');
 export default class App extends PureComponent {
   render() {
-    console.log('hello world');
-    console.log('hello world');
-    console.log('hello world');
     return <div> Hello world!!!</div>;
   }
 }

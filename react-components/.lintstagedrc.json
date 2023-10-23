@@ -1,0 +1,8 @@
+{
+    "*.tsx": [
+      "npx prettier --write ."
+    ],
+    "*.html": [
+      "npx prettier --write ."
+    ]
+  }
