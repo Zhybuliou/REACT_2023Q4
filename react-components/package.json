@@ -13,8 +13,7 @@
     "preview": "vite preview",
     "test": "vitest",
     "coverage": "vitest --coverage",
-    "postinstall": "cd .. && husky install react-components/.husky",
-    "prepare": "husky install"
+    "postinstall": "cd .. && husky install react-components/.husky"
   },
   "dependencies": {
     "react": "^18.2.0",
