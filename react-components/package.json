@@ -12,8 +12,7 @@
     "format:fix": "npx prettier --write .",
     "preview": "vite preview",
     "test": "vitest",
-    "coverage": "vitest --coverage",
-    "prepare": "husky install"
+    "coverage": "vitest --coverage"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -49,12 +48,12 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "echo ”[Husky] pre-commit”"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
     "*.{ts, tsx, html, css, scss}": [
-      "npm run lint:fix",
+      "npm run format:fix",
       "git add"
     ]
   }
