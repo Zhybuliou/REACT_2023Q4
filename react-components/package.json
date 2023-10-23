@@ -53,7 +53,6 @@
     }
   },
   "lint-staged": {
-    "**/*.{tsx,css,html,scss}": ["prettier --write"],
-    "**/*.tsx": ["eslint"]
+    "**/*.{tsx,css,html,scss}": "npx prettier --write ."
   }
 }
