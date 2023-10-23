@@ -3,6 +3,7 @@ import { PureComponent } from 'react';
 
 export default class App extends PureComponent {
   render() {
-    return <div>                        Hello world!!!</div>;
+    console.log('hello world');
+    return <div>              Hello world!!!</div>;
   }
 }
