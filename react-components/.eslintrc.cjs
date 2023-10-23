@@ -38,4 +38,9 @@ module.exports = {
     '@typescript-eslint/no-var-requires': 'off',
     'react/jsx-uses-react': 'off',
   },
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
 };

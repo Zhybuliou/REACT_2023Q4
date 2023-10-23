@@ -49,11 +49,11 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npx lint-staged"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
-    "src/**/*.{tsx,css,html,scss}": "prettier --write .",
-    "src/**/*.tsx": "eslint"
+    "**/*.{tsx,css,html,scss}": ["prettier --write"],
+    "**/*.tsx": ["eslint"]
   }
 }
