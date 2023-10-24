@@ -1,6 +1,5 @@
 {
   "**/*.{js,jsx,ts,tsx}": [
-    "npx eslint --ext .js,.jsx,.ts,.tsx --fix","git add"
-  ],
-  "**/*.{html,css,scss}": ["npx prettier --write .","git add"]
+    "npx eslint --ext .js,.jsx,.ts,.tsx --fix"],
+  "**/*.{html,css,scss}": ["npx prettier --write ."]
 }
