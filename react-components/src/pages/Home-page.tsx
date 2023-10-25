@@ -36,7 +36,7 @@ export default class HomePage extends PureComponent<MyProps, MyState> {
           {' '}
           {storeApiResult ? (
             storeApiResult?.results.map((card) => (
-              <Card name={card.name} key={card.name} />
+              <Card name={card.name} url={card.url} key={card.name} />
             ))
           ) : (
             <Loading />
