@@ -3,11 +3,17 @@ import { PureComponent } from 'react';
 type CardType = {
   name: string;
   url: string;
+  birthYear: string;
+  mass: string;
+  height: string;
+  gender: string;
+  skinColor: string;
 };
 
 export default class Card extends PureComponent<CardType> {
   render() {
-    const { name, url } = this.props;
+    const { name, url, birthYear, mass, height, gender, skinColor } =
+      this.props;
     return (
       <div className="card">
         <div className="wrapper-card">
@@ -22,10 +28,28 @@ export default class Card extends PureComponent<CardType> {
           />
           <div className="card-info">
             <h2>{name}</h2>
-            <p className="date_">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit
-              quam eveniet ipsum reiciendis voluptatum eligendi exercitationem
-            </p>
+            <ul>
+              <li>
+                <strong>Birth year: </strong>
+                {birthYear}
+              </li>
+              <li>
+                <strong>Mass: </strong>
+                {mass}
+              </li>
+              <li>
+                <strong>Height: </strong>
+                {height}
+              </li>
+              <li>
+                <strong>Gender: </strong>
+                {gender}
+              </li>
+              <li>
+                <strong>Skin color: </strong>
+                {skinColor}
+              </li>
+            </ul>
           </div>
         </div>
       </div>

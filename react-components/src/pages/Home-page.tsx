@@ -4,6 +4,7 @@ import API_BASE_URL from '../data/url';
 import { IResultPeople } from '../types/interface';
 import Loading from '../components/Loading';
 import Card from '../components/Card';
+import SearchBlock from '../components/SearchBlock';
 
 type MyProps = {
   value?: string;
@@ -31,12 +32,24 @@ export default class HomePage extends PureComponent<MyProps, MyState> {
 
     return (
       <div className="home-page">
-        <h1>Home page</h1>
+        <div className="home-page-header">
+          <h1>Home page</h1>
+          <SearchBlock />
+        </div>
         <div className="home-page-content">
           {' '}
           {storeApiResult ? (
             storeApiResult?.results.map((card) => (
-              <Card name={card.name} url={card.url} key={card.name} />
+              <Card
+                name={card.name}
+                birthYear={card.birth_year}
+                url={card.url}
+                key={card.name}
+                mass={card.mass}
+                height={card.height}
+                gender={card.gender}
+                skinColor={card.skin_color}
+              />
             ))
           ) : (
             <Loading />

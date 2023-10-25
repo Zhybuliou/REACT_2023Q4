@@ -45,7 +45,7 @@
   height: 25px;
   width: 300px;
   margin-right: 10px;
-  border: 5px solid #ffe81f;
+  border: 4px solid #ffe81f;
   border-radius: 15px;
   outline: transparent;
   padding: 5px 10px 5px 10px;
@@ -57,7 +57,7 @@
   justify-content: center;
   align-items: center;
   height: 40px;
-  border: 5px solid #ffe81f;
+  border: 4px solid #ffe81f;
   border-radius: 14px;
   outline: transparent;
   padding: 5px;
@@ -70,23 +70,20 @@
   background-color: rgb(160, 6, 6);
   transition: 0.3s ease-in;
 }
-@media only screen and (max-width: 600px) {
-  .logo-link {
-    font-size: 24px;
-  }
-  .header {
-    justify-content: center;
-  }
-  .search-block-input {
-    height: 25px;
-    width: 200px;
-    margin-right: 10px;
-    border: 4px solid #ffe81f;
-    padding: 5px 10px 5px 10px;
-  }
-}
+
 .home-page {
   background-color: #87818194;
+  border-radius: 20px;
+  padding-top: 20px;
+}
+.home-page-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 15px 0px 15px;
+  flex-wrap: wrap;
+}
+.home-page h1 {
+  text-align: center;
 }
 .home-page-content {
   display: flex;
@@ -151,6 +148,7 @@
   padding: 20px 10px 5px 10px;
   box-sizing: border-box;
   color: #666;
+  font-family: 'Roboto', sans-serif;
 }
 .date_ {
   font-family: 'Roboto', sans-serif;
@@ -159,9 +157,40 @@
   font-size: 20px;
   text-align: center;
   margin-bottom: 10px;
-  font-family: 'Star Wars', sans-serif;
+  text-transform: uppercase;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 800;
 }
 .card-info p {
   width: 100%;
   font-size: 14px;
+}
+
+@media only screen and (max-width: 800px) {
+  .logo-link {
+    font-size: 24px;
+  }
+  .header {
+    justify-content: center;
+  }
+  .search-block-input {
+    height: 25px;
+    width: 200px;
+    margin-right: 10px;
+    border: 4px solid #ffe81f;
+    padding: 5px 10px 5px 10px;
+  }
+  .home-page-header {
+    justify-content: center;
+    flex-direction: column;
+  }
+  .search-block {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .search-block-input {
+    margin-top: 5px;
+    margin-bottom: 10px;
+  }
 }

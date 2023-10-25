@@ -7,7 +7,7 @@ export default class SearchBlock extends PureComponent {
         <input
           className="search-block-input"
           type="text"
-          placeholder="choose..."
+          placeholder="search character ..."
         />
         <button type="button" className="search-block-button">
           Search
