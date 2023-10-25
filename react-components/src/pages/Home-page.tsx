@@ -2,6 +2,7 @@ import { PureComponent } from 'react';
 import apiRequest from '../service/apiRequest';
 import API_BASE_URL from '../data/url';
 import { IResultPeople } from '../types/interface';
+import Loading from '../components/Loading';
 
 type MyProps = {
   value?: string;
@@ -30,11 +31,15 @@ export default class HomePage extends PureComponent<MyProps, MyState> {
     return (
       <div className="home-page">
         <h1>Home page</h1>
-        {storeApiResult?.results.map((card) => (
-          <div key={card.name}>
-            <p>{card.name}</p>
-          </div>
-        ))}
+        {storeApiResult ? (
+          storeApiResult?.results.map((card) => (
+            <div key={card.name}>
+              <p>{card.name}</p>
+            </div>
+          ))
+        ) : (
+          <Loading />
+        )}
       </div>
     );
   }
