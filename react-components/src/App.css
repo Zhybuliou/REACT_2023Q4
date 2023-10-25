@@ -75,10 +75,12 @@
   background-color: #87818194;
   border-radius: 20px;
   padding-top: 20px;
+  padding-bottom: 20px;
 }
 .home-page-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 0px 15px 0px 15px;
   flex-wrap: wrap;
 }
