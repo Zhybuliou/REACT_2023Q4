@@ -1,3 +1,3 @@
-const API_URL = 'https://pokeapi.co/api/v2/pokemon';
+const API_BASE_URL = 'https://swapi.dev/api/';
 
-export default API_URL;
+export default API_BASE_URL;
