@@ -167,6 +167,16 @@
   width: 100%;
   font-size: 14px;
 }
+.page-not-found {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  width: 100%;
+}
+.page-not-found-image img {
+  width: 300px;
+}
 
 @media only screen and (max-width: 800px) {
   .logo-link {

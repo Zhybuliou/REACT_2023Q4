@@ -3,8 +3,8 @@ import apiRequest from '../service/apiRequest';
 import API_BASE_URL from '../data/url';
 import { IResultPeople } from '../types/interface';
 import Loading from '../components/Loading';
-import Card from '../components/Card';
 import SearchBlock from '../components/SearchBlock';
+import Cards from '../components/Cards';
 
 type MyProps = {
   value?: string;
@@ -33,12 +33,14 @@ export default class HomePage extends Component<MyProps, MyState> {
   }
 
   async handlerOnClick(value: string): Promise<void> {
-    await this.setState({ searchString: value });
+    this.setState({ storeApiResult: null });
+    const stringTrim = value.trim();
+    await this.setState({ searchString: stringTrim });
     const { searchString } = this.state;
-    console.log(searchString);
     apiRequest(API_BASE_URL, searchString).then((data) =>
       this.setState({ storeApiResult: data })
     );
+    localStorage.setItem('search', stringTrim);
   }
 
   handleKeyDown(event: React.KeyboardEvent, value: string): void {
@@ -62,18 +64,7 @@ export default class HomePage extends Component<MyProps, MyState> {
         </div>
         <div className="home-page-content">
           {storeApiResult ? (
-            storeApiResult?.results.map((card) => (
-              <Card
-                name={card.name}
-                birthYear={card.birth_year}
-                url={card.url}
-                key={card.name}
-                mass={card.mass}
-                height={card.height}
-                gender={card.gender}
-                skinColor={card.skin_color}
-              />
-            ))
+            <Cards arrayPeople={storeApiResult.results} />
           ) : (
             <Loading />
           )}

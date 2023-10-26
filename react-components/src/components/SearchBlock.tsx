@@ -20,7 +20,6 @@ export default class SearchBlock extends PureComponent<SearchType, MySearch> {
   }
 
   handlerOnChange(event: React.ChangeEvent<HTMLInputElement>): void {
-    console.log(event.target.value);
     this.setState({ searchString: event.target.value });
   }
 
