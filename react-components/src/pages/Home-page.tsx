@@ -34,13 +34,12 @@ export default class HomePage extends Component<MyProps, MyState> {
 
   async handlerOnClick(value: string): Promise<void> {
     this.setState({ storeApiResult: null });
-    const stringTrim = value.trim();
-    await this.setState({ searchString: stringTrim });
+    await this.setState({ searchString: value });
     const { searchString } = this.state;
     apiRequest(API_BASE_URL, searchString).then((data) =>
       this.setState({ storeApiResult: data })
     );
-    localStorage.setItem('search', stringTrim);
+    localStorage.setItem('search', value);
   }
 
   handleKeyDown(event: React.KeyboardEvent, value: string): void {

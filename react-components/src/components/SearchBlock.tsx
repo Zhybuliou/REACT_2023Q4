@@ -1,4 +1,4 @@
-import { PureComponent } from 'react';
+import { Component } from 'react';
 
 type SearchType = {
   search: string;
@@ -9,7 +9,7 @@ type MySearch = {
   searchString: string;
 };
 
-export default class SearchBlock extends PureComponent<SearchType, MySearch> {
+export default class SearchBlock extends Component<SearchType, MySearch> {
   constructor(props: SearchType) {
     super(props);
     const { search } = this.props;
@@ -37,7 +37,10 @@ export default class SearchBlock extends PureComponent<SearchType, MySearch> {
           onChange={(e) => this.handlerOnChange(e)}
         />
         <button
-          onClick={() => handlerOnClick(searchString)}
+          onClick={() => {
+            this.setState({ searchString: searchString.trim() });
+            handlerOnClick(searchString);
+          }}
           type="button"
           className="search-block-button"
         >
