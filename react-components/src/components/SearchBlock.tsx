@@ -25,7 +25,7 @@ export default class SearchBlock extends Component<SearchType, MySearch> {
 
   render() {
     const { searchString } = this.state;
-    const { handlerOnClick } = this.props;
+    const { handlerOnClick, handleKeyDown } = this.props;
     return (
       <div className="search-block">
         <input
@@ -35,6 +35,7 @@ export default class SearchBlock extends Component<SearchType, MySearch> {
           placeholder="search character ..."
           value={searchString}
           onChange={(e) => this.handlerOnChange(e)}
+          onKeyUp={(e) => handleKeyDown(e, searchString)}
         />
         <button
           onClick={() => {
