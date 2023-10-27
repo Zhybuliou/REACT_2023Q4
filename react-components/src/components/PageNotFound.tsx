@@ -5,7 +5,7 @@ export default class PageNotFound extends PureComponent {
   render() {
     return (
       <div className="page-not-found">
-        <div className="page-not-found-content">
+        <div className="page-not-found-content text-style">
           This is not page you are looking for.
         </div>
         <div className="page-not-found-image">

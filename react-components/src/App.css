@@ -20,6 +20,8 @@
 }
 .logo-link {
   font-size: 42px;
+}
+.text-style {
   color: black;
   text-shadow:
     -3px 0 #ffe81f,
@@ -36,6 +38,7 @@
 .search-block {
   display: flex;
   align-items: center;
+  align-items: baseline;
 }
 
 .search-block-input {
@@ -53,11 +56,12 @@
   font-family: 'Star Wars', sans-serif;
 }
 .search-block-button,
-.button-error {
+.button-error,
+.page-error-reset {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 40px;
+  height: 45px;
   border: 4px solid #ffe81f;
   border-radius: 14px;
   outline: transparent;
@@ -68,13 +72,15 @@
   color: black;
 }
 .search-block-button:hover,
-.button-error:hover {
+.button-error:hover,
+.page-error-reset:hover {
   cursor: pointer;
   background-color: rgb(160, 6, 6);
   transition: 0.3s ease-in;
 }
 
-.home-page {
+.home-page,
+.page-error {
   background-color: #87818194;
   border-radius: 20px;
   padding-top: 20px;
@@ -173,23 +179,43 @@
 .card-info ul {
   list-style-type: none;
 }
-.page-not-found {
+.page-not-found,
+.page-error {
   display: flex;
+  height: 500px;
   justify-content: center;
   align-items: center;
-  height: 500px;
+  flex-wrap: wrap;
   width: 100%;
 }
-.page-not-found-image img {
+.page-not-found-image img,
+.page-error-image img {
   width: 300px;
+}
+.page-not-found-content {
+  font-size: 24px;
+  text-align: center;
+}
+.page-error {
+  flex-wrap: wrap-reverse;
+  margin-top: 100px;
+  height: 500px;
+}
+.page-error-content h2 {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.page-error-reset {
+  margin: 20px auto 0px auto;
+  text-decoration: none;
+  width: 100px;
+  height: 20px;
 }
 
 @media only screen and (max-width: 800px) {
   .logo-link {
-    font-size: 24px;
-  }
-  .header {
-    justify-content: center;
+    font-size: 34px;
   }
   .search-block-input {
     height: 25px;
@@ -210,5 +236,10 @@
   .search-block-input {
     margin-top: 5px;
     margin-bottom: 10px;
+  }
+}
+@media only screen and (max-width: 420px) {
+  .header {
+    justify-content: center;
   }
 }

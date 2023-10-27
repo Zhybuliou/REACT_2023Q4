@@ -1,4 +1,5 @@
 import React, { Component, ErrorInfo } from 'react';
+import PageError from '../pages/PageError';
 
 interface Props {
   children: React.ReactNode;
@@ -6,29 +7,26 @@ interface Props {
 
 interface State {
   hasError: boolean;
+  errorString: string;
 }
 
 class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { hasError: false, errorString: '' };
   }
 
   componentDidCatch(_error: Error, _errorInfo: ErrorInfo) {
-    this.setState({ hasError: true });
-    return { _error, _errorInfo };
+    this.setState({ hasError: true, errorString: _error.message });
+    return { _errorInfo };
   }
 
   render() {
+    const { errorString } = this.state;
     const { hasError } = this.state;
     const { children } = this.props;
     if (hasError) {
-      return (
-        <>
-          <h1>Something went wrong.</h1>
-          <a href="/">Return</a>
-        </>
-      );
+      return <PageError error={errorString} />;
     }
 
     return children;

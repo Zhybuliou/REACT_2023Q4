@@ -6,7 +6,7 @@ export default class Loading extends PureComponent {
     return (
       <div className="loading">
         <img src={loading} alt="loading..." />
-        <div>Loading...</div>
+        <div className="text-style">Loading...</div>
       </div>
     );
   }
