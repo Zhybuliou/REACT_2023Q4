@@ -34,8 +34,8 @@ export default class SearchBlock extends Component<SearchType, MySearch> {
           type="text"
           placeholder="search character ..."
           value={searchString}
-          onChange={(e) => this.handlerOnChange(e)}
-          onKeyUp={(e) => handleKeyDown(e, searchString)}
+          onChange={(event) => this.handlerOnChange(event)}
+          onKeyUp={(event) => handleKeyDown(event, searchString)}
         />
         <button
           onClick={() => {
