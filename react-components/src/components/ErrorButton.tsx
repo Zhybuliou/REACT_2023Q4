@@ -18,7 +18,11 @@ export default class ErrorButton extends Component<MyProps, MyState> {
     const { hasError } = this.state;
     return (
       <>
-        <button type="button" onClick={() => this.setState({ hasError: true })}>
+        <button
+          className="button-error"
+          type="button"
+          onClick={() => this.setState({ hasError: true })}
+        >
           Get Error
         </button>
         {hasError && <ErrorComponent />}
