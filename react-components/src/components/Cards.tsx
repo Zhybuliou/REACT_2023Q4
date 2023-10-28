@@ -12,7 +12,6 @@ export default class Cards extends PureComponent<MyProps> {
     const { arrayPeople } = this.props;
     return (
       <>
-        {' '}
         {arrayPeople?.map((card: IPeople) => (
           <Card
             name={card.name}
