@@ -14,26 +14,23 @@ export default function HomePage() {
     localStorage.getItem('search') || ''
   );
 
-  useEffect(() => {
-    apiRequest(API_BASE_URL, searchString).then((value) =>
-      setStoreApiResult(value)
-    );
-  });
-
-  async function handlerOnClick(value: string): Promise<void> {
-    setStoreApiResult(null);
+  const handlerOnClick = async (value: string): Promise<void> => {
+    await setStoreApiResult(null);
     await setSearchString(value);
-    apiRequest(API_BASE_URL, searchString).then((data) =>
-      setStoreApiResult(data)
-    );
     localStorage.setItem('search', value);
-  }
+    apiRequest(API_BASE_URL, value).then((data) => setStoreApiResult(data));
+  };
 
-  function handleKeyDown(event: React.KeyboardEvent, value: string): void {
+  useEffect(() => {
+    handlerOnClick(searchString);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleKeyDown = (event: React.KeyboardEvent, value: string): void => {
     if (event.key === 'Enter') {
       handlerOnClick(value);
     }
-  }
+  };
 
   return (
     <div className="home-page">
@@ -41,8 +38,8 @@ export default function HomePage() {
         <h1>Home page</h1>
         <SearchBlock
           search={searchString}
-          handleKeyDown={() => handleKeyDown}
-          handlerOnClick={() => handlerOnClick}
+          handleKeyDown={handleKeyDown}
+          handlerOnClick={handlerOnClick}
         />
       </div>
       <div className="home-page-content">
