@@ -20,6 +20,7 @@ export default function HomePage() {
     localStorage.setItem('search', value);
     apiRequest(API_BASE_URL, value).then((data) => setStoreApiResult(data));
     console.log('hello world');
+    console.log('hello world');
   };
 
   useEffect(() => {
