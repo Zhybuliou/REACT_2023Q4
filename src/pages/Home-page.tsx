@@ -36,6 +36,7 @@ export default function HomePage() {
     console.log('husky');
     console.log('husky');
     console.log('husky');
+    console.log('husky');
   };
 
   return (
