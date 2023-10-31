@@ -40,7 +40,6 @@ export default class HomePage extends Component<MyProps, MyState> {
       this.setState({ storeApiResult: data })
     );
     localStorage.setItem('search', value);
-    console.log('help');
   }
 
   handleKeyDown(event: React.KeyboardEvent, value: string): void {
