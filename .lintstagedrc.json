@@ -1,0 +1,4 @@
+{
+    "**/*.{js,jsx,ts,tsx}": ["npx eslint --ext .js,.jsx,.ts,.tsx --fix"],
+    "**/*.{html,css,scss}": ["npx prettier --write ."]
+  }
