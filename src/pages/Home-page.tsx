@@ -22,6 +22,7 @@ export default function HomePage() {
     console.log('check-husky');
     console.log('check-husky');
     console.log('check-husky');
+    console.log('check-husky');
   };
 
   useEffect(() => {
