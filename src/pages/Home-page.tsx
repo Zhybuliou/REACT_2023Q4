@@ -19,10 +19,7 @@ export default function HomePage() {
     await setSearchString(value);
     localStorage.setItem('search', value);
     apiRequest(API_BASE_URL, value).then((data) => setStoreApiResult(data));
-    console.log('check-husky');
-    console.log('check-husky');
-    console.log('check-husky');
-    console.log('check-husky');
+    console.log('hello world');
   };
 
   useEffect(() => {
