@@ -51,5 +51,10 @@
     "hooks": {
       "pre-commit": "npx lint-staged --allow-empty"
     }
+  },  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
