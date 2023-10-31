@@ -30,13 +30,6 @@ export default function HomePage() {
     if (event.key === 'Enter') {
       handlerOnClick(value);
     }
-    console.log('husky');
-    console.log('husky');
-    console.log('husky');
-    console.log('husky');
-    console.log('husky');
-    console.log('husky');
-    console.log('husky');
   };
 
   return (

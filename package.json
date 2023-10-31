@@ -54,7 +54,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": ["eslint"],
+    "*.{js,jsx,ts,tsx}": ["eslint  --max-warnings=0"],
     "*.{html,css,scss}": ["npx prettier --write ."]
   }
 }
