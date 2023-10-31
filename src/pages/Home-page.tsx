@@ -21,6 +21,7 @@ export default function HomePage() {
     apiRequest(API_BASE_URL, value).then((data) => setStoreApiResult(data));
     console.log('hello world');
     console.log('hello world');
+    console.log('hello world');
   };
 
   useEffect(() => {
