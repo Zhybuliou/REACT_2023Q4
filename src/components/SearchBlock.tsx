@@ -23,7 +23,7 @@ export default function SearchBlock({ ...props }) {
           await setSearchString(searchString.trim());
           props.handlerOnClick(searchString);
         }}
-        type="button"
+        type="submit"
         className="search-block-button"
       >
         Search

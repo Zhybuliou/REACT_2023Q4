@@ -213,6 +213,10 @@
   width: 100px;
   height: 20px;
 }
+.pagination-block {
+  display: flex;
+  align-items: baseline;
+}
 
 @media only screen and (max-width: 800px) {
   .logo-link {

@@ -10,7 +10,7 @@ export default function PageError({ ...props }) {
       <div className="page-error-content">
         <h2 className="text-style">oops, something went wrong issue.</h2>
         <p>`Error: {error}`</p>
-        <a className="page-error-reset" href="/">
+        <a className="page-error-reset" href="/pages/1">
           RESET
         </a>
       </div>
