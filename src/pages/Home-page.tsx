@@ -31,6 +31,8 @@ export default function HomePage() {
       handlerOnClick(value);
     }
     console.log('husky');
+    console.log('husky');
+    console.log('husky');
   };
 
   return (
