@@ -19,11 +19,6 @@ export default function HomePage() {
     await setSearchString(value);
     localStorage.setItem('search', value);
     apiRequest(API_BASE_URL, value).then((data) => setStoreApiResult(data));
-    console.log('hello world');
-    console.log('hello world');
-    console.log('hello world');
-    console.log('hello world');
-    console.log('hello world');
   };
 
   useEffect(() => {
@@ -35,6 +30,7 @@ export default function HomePage() {
     if (event.key === 'Enter') {
       handlerOnClick(value);
     }
+    console.log('husky');
   };
 
   return (
