@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import apiRequest from '../service/apiRequest';
 import API_BASE_URL from '../data/url';
 import { IResultPeople } from '../types/interface';
@@ -64,6 +64,7 @@ export default function HomePage() {
         ) : (
           <Loading />
         )}
+        <Outlet />
       </div>
     </div>
   );
