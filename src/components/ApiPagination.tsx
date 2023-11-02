@@ -21,20 +21,22 @@ export default function ApiPagination({
                   background: '#ffe81f',
                   textDecoration: 'none',
                   marginLeft: '5px',
-                  fontSize: '20px',
+                  fontSize: '18px',
                   padding: '0px 6px 0px 6px',
-                  borderRadius: '50%',
+                  borderRadius: '8px',
                   fontWeight: '800',
+                  border: 'solid 3px #ffe81f',
                 }
               : {
                   color: '#545e6f',
                   background: '#f0f0f0',
                   textDecoration: 'none',
                   marginLeft: '5px',
-                  fontSize: '20px',
+                  fontSize: '18px',
                   padding: '0px 6px 0px 6px',
-                  borderRadius: '50%',
+                  borderRadius: '8px',
                   fontWeight: '800',
+                  border: 'solid 3px #ffe81f',
                 }
           }
           to={`/pages/${button + i}`}
