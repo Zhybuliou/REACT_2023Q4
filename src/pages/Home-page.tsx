@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import apiRequest from '../service/apiRequest';
 import API_BASE_URL from '../data/url';
 import { IResultPeople } from '../types/interface';
@@ -9,15 +9,15 @@ import Cards from '../components/Cards';
 import ApiPagination from '../components/ApiPagination';
 
 export default function HomePage() {
+  const { id, page } = useParams();
+  const navigate = useNavigate();
   const [storeApiResult, setStoreApiResult] = useState<IResultPeople | null>(
     null
   );
+  const [pages, setPages] = useState(page);
   const [searchString, setSearchString] = useState(
     localStorage.getItem('search') || ''
   );
-
-  const location = useLocation();
-  const navigate = useNavigate();
 
   const handlerOnClick = async (value: string): Promise<void> => {
     await setStoreApiResult(null);
@@ -30,16 +30,19 @@ export default function HomePage() {
   };
   const handlerOnChengUrl = async (): Promise<void> => {
     await setStoreApiResult(null);
-    await apiRequest(
-      API_BASE_URL,
-      searchString,
-      location.pathname.split('/')[2]
-    ).then((data) => setStoreApiResult(data));
+    await apiRequest(API_BASE_URL, searchString, page).then((data) =>
+      setStoreApiResult(data)
+    );
+    if (page) setPages(page);
   };
   useEffect(() => {
     handlerOnChengUrl();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
+  }, []);
+  useEffect(() => {
+    if (!id && page !== pages) handlerOnChengUrl();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
   const handleKeyDown = (event: React.KeyboardEvent, value: string): void => {
     if (event.key === 'Enter') {
@@ -58,12 +61,14 @@ export default function HomePage() {
           handlerOnClick={handlerOnClick}
         />
       </div>
-      <div className="home-page-content">
-        {storeApiResult ? (
-          <Cards arrayPeople={storeApiResult.results} />
-        ) : (
-          <Loading />
-        )}
+      <div className="home-page-content-wrapper">
+        <div className="home-page-content">
+          {storeApiResult ? (
+            <Cards arrayPeople={storeApiResult.results} />
+          ) : (
+            <Loading />
+          )}
+        </div>
         <Outlet />
       </div>
     </div>
