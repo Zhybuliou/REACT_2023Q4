@@ -7,16 +7,7 @@ export default function Cards({ ...props }) {
   return (
     <>
       {arrayPeople?.map((card: IPeople) => (
-        <Card
-          name={card.name}
-          birthYear={card.birth_year}
-          url={card.url}
-          key={card.name}
-          mass={card.mass}
-          height={card.height}
-          gender={card.gender}
-          skinColor={card.skin_color}
-        />
+        <Card name={card.name} url={card.url} key={card.name} />
       ))}
       {!arrayPeople.length && <PageNotFound />}
     </>
