@@ -293,6 +293,17 @@
   list-style-type: none;
   font-size: 22px;
 }
+.select-input-characters-label select {
+  color: #545e6f;
+  background: #f0f0f0;
+  text-decoration: none;
+  margin-left: 5px;
+  font-size: 18px;
+  padding: 0px 6px 0px 6px;
+  border-radius: 8px;
+  font-weight: 800;
+  border: solid 3px #ffe81f;
+}
 
 @media only screen and (max-width: 800px) {
   .home-page-content-wrapper {
