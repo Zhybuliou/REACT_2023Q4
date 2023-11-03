@@ -36,6 +36,10 @@ export default function CharacterCard() {
     urlImage =
       'url(https://cdnb.artstation.com/p/assets/images/images/006/189/823/large/yuval-halevy-corellia-3.jpg)';
   }
+  if (+idPlanet > 22) {
+    urlImage =
+      'url(https://starwars-visualguide.com/assets/img/big-placeholder.jpg)';
+  }
 
   return (
     <>
