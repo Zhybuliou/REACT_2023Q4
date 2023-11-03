@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import apiRequest from '../service/apiRequest';
 import API_BASE_URL from '../data/url';
-import { IResultPeople } from '../types/interface';
+import { IPeople, IResultPeople } from '../types/interface';
 import Loading from '../components/Loading';
 import SearchBlock from '../components/SearchBlock';
 import Cards from '../components/Cards';
 import ApiPagination from '../components/ApiPagination';
+import SelectCards from '../components/SelectCards';
 
 export default function HomePage() {
   const { id, page } = useParams();
@@ -15,9 +16,36 @@ export default function HomePage() {
     null
   );
   const [pages, setPages] = useState(page);
+  const [allCharacters, setAllCharacters] = useState<IPeople[]>([]);
   const [searchString, setSearchString] = useState(
     localStorage.getItem('search') || ''
   );
+
+  const handlerOnTwenty = async (): Promise<void> => {
+    await setAllCharacters([]);
+    let myPage = +page! === 1 ? page : +page! + 1;
+    if (+page! > 2) {
+      myPage = +page! + 2;
+    }
+    const promise = await apiRequest(
+      API_BASE_URL,
+      searchString,
+      `${myPage}`
+    ).then((data) => data.results);
+
+    const promise2 = await apiRequest(
+      API_BASE_URL,
+      searchString,
+      `${+myPage! + 1}`
+    ).then((data) => data.results);
+    await Promise.all([promise, promise2]).then((data) =>
+      setAllCharacters(data.flat(Infinity))
+    );
+  };
+
+  const handlerOnChangePerPage = async (): Promise<void> => {
+    handlerOnTwenty();
+  };
 
   const handlerOnClick = async (value: string): Promise<void> => {
     await setStoreApiResult(null);
@@ -36,11 +64,15 @@ export default function HomePage() {
     if (page) setPages(page);
   };
   useEffect(() => {
+    handlerOnTwenty();
     handlerOnChengUrl();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
-    if (!id && page !== pages) handlerOnChengUrl();
+    if (!id && page !== pages) {
+      handlerOnChengUrl();
+      handlerOnTwenty();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
@@ -53,7 +85,7 @@ export default function HomePage() {
   return (
     <div className="home-page">
       <div className="home-page-header">
-        <h1>Home page</h1>
+        <SelectCards handlerOnChangePerPage={handlerOnChangePerPage} />
         {storeApiResult && <ApiPagination countItems={storeApiResult.count} />}
         <SearchBlock
           search={searchString}
@@ -63,8 +95,8 @@ export default function HomePage() {
       </div>
       <div className="home-page-content-wrapper">
         <div className="home-page-content">
-          {storeApiResult ? (
-            <Cards arrayPeople={storeApiResult.results} />
+          {allCharacters.length ? (
+            <Cards arrayPeople={allCharacters} />
           ) : (
             <Loading />
           )}

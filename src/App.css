@@ -87,6 +87,9 @@
   padding-top: 20px;
   padding-bottom: 20px;
 }
+.home-page {
+  position: relative;
+}
 .home-page-header {
   display: flex;
   justify-content: space-between;
@@ -100,7 +103,6 @@
 .home-page-content-wrapper {
   display: flex;
   justify-content: center;
-  position: relative;
 }
 .home-page-content {
   display: flex;
@@ -224,6 +226,7 @@
   align-items: baseline;
 }
 .character-wrapper {
+  top: 0;
   position: absolute;
   width: 100%;
   height: 100%;
@@ -235,6 +238,7 @@
 }
 .character-card-wrapper {
   position: relative;
+  z-index: 100;
   background-color: wheat;
   width: 600px;
   margin: 20px 10px 10px 10px;
