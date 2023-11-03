@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { nanoid } from 'nanoid';
 import { IPeople } from '../types/interface';
 import API_BASE_URL from '../data/url';
 import apiRequestCharacter from '../service/apiRequestCharacter';
@@ -99,6 +100,20 @@ export default function CharacterCard() {
                   backgroundImage: `${urlImage}`,
                 }}
               />
+              <div className="character-card-description">
+                <h2>Films:</h2>
+                {character.films.map((film) => (
+                  <div
+                    key={nanoid()}
+                    className="character-card_planet"
+                    style={{
+                      backgroundImage: `url(https://starwars-visualguide.com/assets/img/films/${
+                        film.split('/')[film.split('/').length - 2]
+                      }.jpg)`,
+                    }}
+                  />
+                ))}
+              </div>
             </div>
           </>
         )}

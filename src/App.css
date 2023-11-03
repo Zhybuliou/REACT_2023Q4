@@ -104,6 +104,7 @@
 }
 .home-page-content {
   display: flex;
+  height: 100%;
   width: 100%;
   flex-wrap: wrap;
   justify-content: center;
@@ -269,7 +270,7 @@
   background-position: center;
 }
 .character-card_planet {
-  margin: 0 auto;
+  margin: 10px auto;
   width: 50%;
   height: 200px;
   background-repeat: no-repeat;
