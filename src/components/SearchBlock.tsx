@@ -1,7 +1,14 @@
 import { useState } from 'react';
 
-export default function SearchBlock({ ...props }) {
-  const { search } = props;
+export default function SearchBlock({
+  search,
+  handleKeyDown,
+  handlerOnClick,
+}: {
+  search: string;
+  handleKeyDown: (event: React.KeyboardEvent, searchString: string) => void;
+  handlerOnClick: (value: string, getPage?: string) => Promise<void>;
+}) {
   const [searchString, setSearchString] = useState(search);
 
   function handlerOnChange(event: React.ChangeEvent<HTMLInputElement>): void {
@@ -16,12 +23,12 @@ export default function SearchBlock({ ...props }) {
         placeholder="search character ..."
         value={searchString}
         onChange={(event) => handlerOnChange(event)}
-        onKeyUp={(event) => props.handleKeyDown(event, searchString)}
+        onKeyUp={(event) => handleKeyDown(event, searchString)}
       />
       <button
         onClick={async () => {
           await setSearchString(searchString.trim());
-          props.handlerOnClick(searchString);
+          handlerOnClick(searchString);
         }}
         type="submit"
         className="search-block-button"

@@ -24,9 +24,18 @@ export default function HomePage() {
 
   const handlerOnTwenty = async (currentPage: string): Promise<void> => {
     await setAllCharacters([]);
+    const countPages = storeApiResult?.count
+      ? Math.ceil(storeApiResult.count / 10)
+      : 9;
     let myPage = +currentPage! === 1 ? currentPage : +currentPage! + 1;
-    if (+currentPage! > 2) {
-      myPage = +currentPage! + 2;
+    if (+currentPage > 2) {
+      myPage = +currentPage + 2;
+    }
+    if (+currentPage >= 4) {
+      myPage = +currentPage + 3;
+    }
+    if (+currentPage === 5) {
+      myPage = 9;
     }
     const promise = await apiRequest(
       API_BASE_URL,
@@ -34,11 +43,13 @@ export default function HomePage() {
       `${myPage}`
     ).then((data) => data.results);
 
-    const promise2 = await apiRequest(
-      API_BASE_URL,
-      searchString,
-      `${+myPage! + 1}`
-    ).then((data) => data.results);
+    const promise2 =
+      countPages >= +myPage + 1
+        ? await apiRequest(API_BASE_URL, searchString, `${+myPage! + 1}`).then(
+            (data) => data.results
+          )
+        : [];
+
     await Promise.all([promise, promise2]).then((data) =>
       setAllCharacters(data.flat(Infinity))
     );
@@ -99,7 +110,9 @@ export default function HomePage() {
 
   const handleKeyDown = (event: React.KeyboardEvent, value: string): void => {
     if (event.key === 'Enter') {
-      handlerOnClick(value);
+      setSearchString(value);
+      setAllCharacters([]);
+      handlerOnClick(value, perPage);
     }
   };
 
