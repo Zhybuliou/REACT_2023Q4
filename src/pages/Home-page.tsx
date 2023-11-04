@@ -15,17 +15,18 @@ export default function HomePage() {
   const [storeApiResult, setStoreApiResult] = useState<IResultPeople | null>(
     null
   );
-  const [pages, setPages] = useState(page);
+  const [pages, setPages] = useState('1');
   const [allCharacters, setAllCharacters] = useState<IPeople[]>([]);
+  const [perPage, setPerPage] = useState('10');
   const [searchString, setSearchString] = useState(
     localStorage.getItem('search') || ''
   );
 
-  const handlerOnTwenty = async (): Promise<void> => {
+  const handlerOnTwenty = async (currentPage: string): Promise<void> => {
     await setAllCharacters([]);
-    let myPage = +page! === 1 ? page : +page! + 1;
-    if (+page! > 2) {
-      myPage = +page! + 2;
+    let myPage = +currentPage! === 1 ? currentPage : +currentPage! + 1;
+    if (+currentPage! > 2) {
+      myPage = +currentPage! + 2;
     }
     const promise = await apiRequest(
       API_BASE_URL,
@@ -43,35 +44,55 @@ export default function HomePage() {
     );
   };
 
-  const handlerOnChangePerPage = async (): Promise<void> => {
-    handlerOnTwenty();
-  };
-
-  const handlerOnClick = async (value: string): Promise<void> => {
+  const handlerOnClick = async (
+    value: string,
+    getPage: string = perPage
+  ): Promise<void> => {
+    await setAllCharacters([]);
     await setStoreApiResult(null);
     await setSearchString(value);
     localStorage.setItem('search', value);
-    apiRequest(API_BASE_URL, value, '1').then((data) =>
-      setStoreApiResult(data)
-    );
+    apiRequest(API_BASE_URL, value, '1').then((data) => {
+      setStoreApiResult(data);
+      if (getPage === '10') {
+        setAllCharacters(data.results);
+      }
+    });
     navigate('/pages/1', { replace: true });
+    if (getPage === '20') {
+      handlerOnTwenty('1');
+    }
   };
-  const handlerOnChengUrl = async (): Promise<void> => {
+
+  const handlerOnChengUrl = async (getPerPage: string): Promise<void> => {
+    await setAllCharacters([]);
     await setStoreApiResult(null);
-    await apiRequest(API_BASE_URL, searchString, page).then((data) =>
-      setStoreApiResult(data)
-    );
-    if (page) setPages(page);
+    await apiRequest(API_BASE_URL, searchString, page).then((data) => {
+      setStoreApiResult(data);
+      if (getPerPage === '10') {
+        setAllCharacters(data.results);
+      }
+    });
+    if (page) {
+      setPages(page);
+      if (getPerPage === '20') {
+        handlerOnTwenty(page);
+      }
+    }
+  };
+
+  const handlerOnChangePerPage = async (value: string): Promise<void> => {
+    await setAllCharacters([]);
+    await setPerPage(value);
+    await handlerOnClick(searchString, value);
   };
   useEffect(() => {
-    handlerOnTwenty();
-    handlerOnChengUrl();
+    handlerOnChengUrl(perPage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (!id && page !== pages) {
-      handlerOnChengUrl();
-      handlerOnTwenty();
+      handlerOnChengUrl(perPage);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
@@ -86,7 +107,9 @@ export default function HomePage() {
     <div className="home-page">
       <div className="home-page-header">
         <SelectCards handlerOnChangePerPage={handlerOnChangePerPage} />
-        {storeApiResult && <ApiPagination countItems={storeApiResult.count} />}
+        {storeApiResult && (
+          <ApiPagination countItems={storeApiResult.count} perPage={perPage} />
+        )}
         <SearchBlock
           search={searchString}
           handleKeyDown={handleKeyDown}

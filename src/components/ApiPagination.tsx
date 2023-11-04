@@ -3,10 +3,13 @@ import { NavLink } from 'react-router-dom';
 
 export default function ApiPagination({
   countItems,
+  perPage,
 }: {
   countItems: number | undefined;
+  perPage: string;
 }) {
-  const pages = countItems && Math.ceil(countItems / 10);
+  const delPagination = perPage === '10' ? 10 : 20;
+  const pages = countItems && Math.ceil(countItems / delPagination);
   const pagesArray = new Array(pages).fill(1);
 
   return (
