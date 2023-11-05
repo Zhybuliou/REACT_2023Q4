@@ -16,14 +16,14 @@ export default function HomePage() {
     null
   );
   const [pages, setPages] = useState('1');
-  const [allCharacters, setAllCharacters] = useState<IPeople[]>([]);
+  const [allCharacters, setAllCharacters] = useState<IPeople[] | null>(null);
   const [perPage, setPerPage] = useState('10');
   const [searchString, setSearchString] = useState(
     localStorage.getItem('search') || ''
   );
 
   const handlerOnTwenty = async (currentPage: string): Promise<void> => {
-    await setAllCharacters([]);
+    await setAllCharacters(null);
     const countPages = storeApiResult?.count
       ? Math.ceil(storeApiResult.count / 10)
       : 9;
@@ -59,7 +59,7 @@ export default function HomePage() {
     value: string,
     getPage: string = perPage
   ): Promise<void> => {
-    await setAllCharacters([]);
+    await setAllCharacters(null);
     await setStoreApiResult(null);
     await setSearchString(value);
     localStorage.setItem('search', value);
@@ -76,7 +76,7 @@ export default function HomePage() {
   };
 
   const handlerOnChengUrl = async (getPerPage: string): Promise<void> => {
-    await setAllCharacters([]);
+    await setAllCharacters(null);
     await setStoreApiResult(null);
     await apiRequest(API_BASE_URL, searchString, page).then((data) => {
       setStoreApiResult(data);
@@ -93,7 +93,7 @@ export default function HomePage() {
   };
 
   const handlerOnChangePerPage = async (value: string): Promise<void> => {
-    await setAllCharacters([]);
+    await setAllCharacters(null);
     await setPerPage(value);
     await handlerOnClick(searchString, value);
   };
@@ -111,7 +111,7 @@ export default function HomePage() {
   const handleKeyDown = (event: React.KeyboardEvent, value: string): void => {
     if (event.key === 'Enter') {
       setSearchString(value);
-      setAllCharacters([]);
+      setAllCharacters(null);
       handlerOnClick(value, perPage);
     }
   };
@@ -120,7 +120,7 @@ export default function HomePage() {
     <div className="home-page">
       <div className="home-page-header">
         <SelectCards handlerOnChangePerPage={handlerOnChangePerPage} />
-        {storeApiResult && (
+        {!!storeApiResult?.count && (
           <ApiPagination countItems={storeApiResult.count} perPage={perPage} />
         )}
         <SearchBlock
@@ -131,11 +131,7 @@ export default function HomePage() {
       </div>
       <div className="home-page-content-wrapper">
         <div className="home-page-content">
-          {allCharacters.length ? (
-            <Cards arrayPeople={allCharacters} />
-          ) : (
-            <Loading />
-          )}
+          {allCharacters ? <Cards arrayPeople={allCharacters} /> : <Loading />}
         </div>
         <Outlet />
       </div>
