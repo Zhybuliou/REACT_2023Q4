@@ -63,6 +63,10 @@
     ],
     "*.{html,css,scss}": [
       "npx prettier --write ."
+    ],
+    "src/tests/**/*.{js,jsx,ts,tsx}": [
+      "vitest related --run"
     ]
+    
   }
 }

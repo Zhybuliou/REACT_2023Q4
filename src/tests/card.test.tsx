@@ -10,6 +10,6 @@ describe('Check render page App', () => {
         <App />
       </BrowserRouter>
     );
-    expect(screen.getByText(/Star Wars/i)).toBeInTheDocument();
+    expect(screen.getByText(/Star wars/i)).toBeInTheDocument();
   });
 });
