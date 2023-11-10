@@ -95,13 +95,13 @@ export default function HomePage() {
   };
 
   useEffect(() => {
-    handlerOnClick(inputSearch);
+    handlerOnClick(inputSearch).catch((error) => error);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputSearch, perPage]);
 
   useEffect(() => {
     if (!id && page !== pages) {
-      handlerOnChengUrl(perPage);
+      handlerOnChengUrl(perPage).catch((error) => error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
