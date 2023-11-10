@@ -7,12 +7,12 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "test": "vitest",
+    "coverage": "vitest --coverage",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
     "format:fix": "npx prettier --write .",
     "preview": "vite preview",
-    "test": "vitest",
-    "coverage": "vitest --coverage",
     "postinstall": "cd .. && husky install react-components/.husky",
     "prepare": "husky install"
   },
@@ -29,7 +29,6 @@
     "@types/mocha": "^10.0.4",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
-    "@types/testing-library__jest-dom": "^6.0.0",
     "@typescript-eslint/eslint-plugin": "^6.8.0",
     "@typescript-eslint/parser": "^6.8.0",
     "@vitejs/plugin-react": "^4.0.3",
@@ -67,6 +66,5 @@
     "src/tests/**/*.{js,jsx,ts,tsx}": [
       "vitest related --run"
     ]
-    
   }
 }
