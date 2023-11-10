@@ -1,3 +1,51 @@
+export type TypeContext = {
+  inputSearch: string;
+  storeApiResult: IResultPeople | null;
+  storeCharacters: IPeople[] | null;
+  pages: string;
+  perPage: string;
+  addPages: (value: string) => void;
+  addPerPage: (value: string) => void;
+  addInputSearch: (inputWord: string) => void;
+  addStoreApiResult: (value: IResultPeople | null) => void;
+  addAllCharacters: (value: IPeople[] | null) => void;
+  removeStoreApiResult: () => void;
+  removeAllCharacters: () => void;
+};
+
+export type InitialState = {
+  inputSearch: string;
+  storeApiResult: IResultPeople | null;
+  storeCharacters: IPeople[] | null;
+  pages: string;
+  perPage: string;
+};
+export type Action =
+  | { type: 'ADD_SEARCH'; payload: string }
+  | {
+      type: 'ADD_STORE_API';
+      resultApi: IResultPeople | null;
+    }
+  | {
+      type: 'CLEAR_STORE_API';
+      resultApi: null;
+    }
+  | {
+      type: 'ADD_STORE_CHARACTERS';
+      characters: IPeople[] | null;
+    }
+  | {
+      type: 'CLEAR_STORE_CHARACTERS';
+      characters: null;
+    }
+  | {
+      type: 'ADD_PAGES';
+      pages: string;
+    }
+  | {
+      type: 'PRE_PAGE';
+      perPage: string;
+    };
 export interface IResultPeople {
   count: number;
   next: string | null;

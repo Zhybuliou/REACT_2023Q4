@@ -1,13 +1,11 @@
 import { nanoid } from 'nanoid';
+import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
+import { AppContext } from '../context/AppContext';
 
-export default function ApiPagination({
-  countItems,
-  perPage,
-}: {
-  countItems: number | undefined;
-  perPage: string;
-}) {
+export default function ApiPagination() {
+  const { perPage, storeApiResult } = useContext(AppContext);
+  const countItems = storeApiResult?.count;
   const delPagination = perPage === '10' ? 10 : 20;
   const pages = countItems && Math.ceil(countItems / delPagination);
   const pagesArray = new Array(pages).fill(1);

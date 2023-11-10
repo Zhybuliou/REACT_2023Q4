@@ -1,29 +1,33 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useContext } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import apiRequest from '../service/apiRequest';
 import API_BASE_URL from '../data/url';
-import { IPeople, IResultPeople } from '../types/interface';
 import Loading from '../components/Loading';
 import SearchBlock from '../components/SearchBlock';
 import Cards from '../components/Cards';
 import ApiPagination from '../components/ApiPagination';
 import SelectCards from '../components/SelectCards';
+import { AppContext } from '../context/AppContext';
 
 export default function HomePage() {
   const { id, page } = useParams();
   const navigate = useNavigate();
-  const [storeApiResult, setStoreApiResult] = useState<IResultPeople | null>(
-    null
-  );
-  const [pages, setPages] = useState('1');
-  const [allCharacters, setAllCharacters] = useState<IPeople[] | null>(null);
-  const [perPage, setPerPage] = useState('10');
-  const [searchString, setSearchString] = useState(
-    localStorage.getItem('search') || ''
-  );
+
+  const {
+    addStoreApiResult,
+    addAllCharacters,
+    removeStoreApiResult,
+    removeAllCharacters,
+    addPages,
+    inputSearch,
+    storeApiResult,
+    storeCharacters,
+    perPage,
+    pages,
+  } = useContext(AppContext);
 
   const handlerOnTwenty = async (currentPage: string): Promise<void> => {
-    await setAllCharacters(null);
+    await removeAllCharacters();
     const countPages = storeApiResult?.count
       ? Math.ceil(storeApiResult.count / 10)
       : 9;
@@ -39,19 +43,19 @@ export default function HomePage() {
     }
     const promise = await apiRequest(
       API_BASE_URL,
-      searchString,
+      inputSearch,
       `${myPage}`
     ).then((data) => data.results);
 
     const promise2 =
       countPages >= +myPage + 1
-        ? await apiRequest(API_BASE_URL, searchString, `${+myPage! + 1}`).then(
+        ? await apiRequest(API_BASE_URL, inputSearch, `${+myPage! + 1}`).then(
             (data) => data.results
           )
         : [];
 
     await Promise.all([promise, promise2]).then((data) =>
-      setAllCharacters(data.flat(Infinity))
+      addAllCharacters(data.flat(Infinity))
     );
   };
 
@@ -59,14 +63,12 @@ export default function HomePage() {
     value: string,
     getPage: string = perPage
   ): Promise<void> => {
-    await setAllCharacters(null);
-    await setStoreApiResult(null);
-    await setSearchString(value);
-    localStorage.setItem('search', value);
+    await removeAllCharacters();
+    await removeStoreApiResult();
     apiRequest(API_BASE_URL, value, '1').then((data) => {
-      setStoreApiResult(data);
+      addStoreApiResult(data);
       if (getPage === '10') {
-        setAllCharacters(data.results);
+        addAllCharacters(data.results);
       }
     });
     navigate('/pages/1', { replace: true });
@@ -76,31 +78,27 @@ export default function HomePage() {
   };
 
   const handlerOnChengUrl = async (getPerPage: string): Promise<void> => {
-    await setAllCharacters(null);
-    await setStoreApiResult(null);
-    await apiRequest(API_BASE_URL, searchString, page).then((data) => {
-      setStoreApiResult(data);
+    await removeAllCharacters();
+    await removeStoreApiResult();
+    await apiRequest(API_BASE_URL, inputSearch, page).then((data) => {
+      addStoreApiResult(data);
       if (getPerPage === '10') {
-        setAllCharacters(data.results);
+        addAllCharacters(data.results);
       }
     });
     if (page) {
-      setPages(page);
+      addPages(page);
       if (getPerPage === '20') {
         handlerOnTwenty(page);
       }
     }
   };
 
-  const handlerOnChangePerPage = async (value: string): Promise<void> => {
-    await setAllCharacters(null);
-    await setPerPage(value);
-    await handlerOnClick(searchString, value);
-  };
   useEffect(() => {
-    handlerOnChengUrl(perPage);
+    handlerOnClick(inputSearch);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [inputSearch, perPage]);
+
   useEffect(() => {
     if (!id && page !== pages) {
       handlerOnChengUrl(perPage);
@@ -108,30 +106,16 @@ export default function HomePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
-  const handleKeyDown = (event: React.KeyboardEvent, value: string): void => {
-    if (event.key === 'Enter') {
-      setSearchString(value);
-      setAllCharacters(null);
-      handlerOnClick(value, perPage);
-    }
-  };
-
   return (
     <div className="home-page">
       <div className="home-page-header">
-        <SelectCards handlerOnChangePerPage={handlerOnChangePerPage} />
-        {!!storeApiResult?.count && (
-          <ApiPagination countItems={storeApiResult.count} perPage={perPage} />
-        )}
-        <SearchBlock
-          search={searchString}
-          handleKeyDown={handleKeyDown}
-          handlerOnClick={handlerOnClick}
-        />
+        <SelectCards />
+        {!!storeApiResult?.count && <ApiPagination />}
+        <SearchBlock />
       </div>
       <div className="home-page-content-wrapper">
         <div className="home-page-content">
-          {allCharacters ? <Cards arrayPeople={allCharacters} /> : <Loading />}
+          {storeCharacters ? <Cards /> : <Loading />}
         </div>
         <Outlet />
       </div>

@@ -1,15 +1,11 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { AppContext } from '../context/AppContext';
 
-export default function SearchBlock({
-  search,
-  handleKeyDown,
-  handlerOnClick,
-}: {
-  search: string;
-  handleKeyDown: (event: React.KeyboardEvent, searchString: string) => void;
-  handlerOnClick: (value: string, getPage?: string) => Promise<void>;
-}) {
-  const [searchString, setSearchString] = useState(search);
+export default function SearchBlock() {
+  const inputSearch = useContext(AppContext);
+  const [searchString, setSearchString] = useState(
+    inputSearch.inputSearch || ''
+  );
 
   function handlerOnChange(event: React.ChangeEvent<HTMLInputElement>): void {
     setSearchString(event.target.value);
@@ -23,12 +19,14 @@ export default function SearchBlock({
         placeholder="search character ..."
         value={searchString}
         onChange={(event) => handlerOnChange(event)}
-        onKeyUp={(event) => handleKeyDown(event, searchString)}
+        onKeyUp={(event) =>
+          event.key === 'Enter' &&
+          inputSearch.addInputSearch(searchString.trim())
+        }
       />
       <button
         onClick={async () => {
-          await setSearchString(searchString.trim());
-          handlerOnClick(searchString);
+          inputSearch.addInputSearch(searchString.trim());
         }}
         type="submit"
         className="search-block-button"
