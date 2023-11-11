@@ -497,3 +497,9 @@ export const Mock = {
   removeStoreApiResult: () => {},
   removeAllCharacters: () => {},
 };
+
+export function mockSearchParams(paramsString: string) {
+  const { pathname } = window.location;
+  const url = paramsString ? `${pathname}?${paramsString}` : pathname;
+  window.history.pushState({}, '', url);
+}
