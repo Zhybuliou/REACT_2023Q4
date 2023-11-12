@@ -15,6 +15,7 @@ export default function ApiPagination() {
       <p>Pages: </p>
       {pagesArray.map((button, i) => (
         <NavLink
+          role="button"
           style={({ isActive }) =>
             isActive
               ? {

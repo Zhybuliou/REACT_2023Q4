@@ -8,7 +8,7 @@ import {
 } from '../types/interface';
 
 const initialState = {
-  inputSearch: '',
+  inputSearch: localStorage.getItem('search') || '',
   storeApiResult: null,
   storeCharacters: null,
   pages: '1',

@@ -75,6 +75,7 @@ export default function HomePage() {
     if (getPage === '20') {
       handlerOnTwenty('1');
     }
+    localStorage.setItem('search', inputSearch);
   };
 
   const handlerOnChengUrl = async (getPerPage: string): Promise<void> => {
