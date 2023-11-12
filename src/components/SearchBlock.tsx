@@ -13,6 +13,7 @@ export default function SearchBlock() {
   return (
     <div className="search-block">
       <input
+        data-testid="input-search"
         className="search-block-input"
         name="value"
         type="text"
@@ -25,6 +26,7 @@ export default function SearchBlock() {
         }
       />
       <button
+        data-testid="button-search"
         onClick={async () => {
           inputSearch.addInputSearch(searchString.trim());
         }}

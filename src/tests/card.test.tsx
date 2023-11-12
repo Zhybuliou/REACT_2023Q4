@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom';
+import { vi } from 'vitest';
 
 import {
   act,
@@ -12,6 +13,7 @@ import App from '../App';
 import Cards from '../components/Cards';
 import Provider, { AppContext } from '../context/AppContext';
 import { Mock } from '../data/apiMock';
+import ErrorBoundary from '../components/ErrorBoundary';
 
 const setup = () => {
   act(() => {
@@ -111,8 +113,31 @@ describe('8 Tests for the Pagination component', () => {
 });
 
 describe('9 Tests for the Search component', () => {
-  it('Verify that clicking the Search button saves the entered value to the local storage;', async () => {});
-  it('Check that the component retrieves the value from the local storage upon mounting.', async () => {});
+  beforeEach(() => {
+    Object.defineProperty(window, 'localStorage', {
+      value: {
+        getItem: vi.fn(() => null),
+        setItem: vi.fn(() => null),
+      },
+      writable: true,
+    });
+  });
+  it('Verify that clicking the Search button saves the entered value to the local storage;', async () => {
+    await setupApi();
+    const input = screen.getByTestId('input-search') as HTMLInputElement;
+    fireEvent.change(input, { target: { value: 'dd' } });
+    const button = screen.getByTestId('button-search') as HTMLElement;
+    fireEvent.click(button);
+    await waitFor(() =>
+      expect(window.localStorage.setItem).toHaveBeenCalledTimes(1)
+    );
+  });
+  it('Check that the component retrieves the value from the local storage upon mounting.', async () => {
+    await setupApi();
+    await waitFor(() =>
+      expect(window.localStorage.getItem('search')).toEqual(null)
+    );
+  });
 });
 
 describe('10 Tests for the 404 Page component:', () => {
@@ -125,5 +150,22 @@ describe('10 Tests for the 404 Page component:', () => {
       </MemoryRouter>
     );
     await expect(screen.getByText('404'));
+  });
+});
+
+describe('Tests ErrorComponent.tsx:', () => {
+  it('Ensure that the 404 page is displayed when navigating to an invalid route.', async () => {
+    await render(
+      <ErrorBoundary>
+        <MemoryRouter>
+          <AppContext.Provider value={Mock}>
+            <App />
+          </AppContext.Provider>
+        </MemoryRouter>
+      </ErrorBoundary>
+    );
+    const buttonError = screen.getByText('Get Error');
+    fireEvent.click(buttonError);
+    expect(screen.getByText(/This is a test error/i)).toBeInTheDocument();
   });
 });
