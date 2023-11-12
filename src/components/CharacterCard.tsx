@@ -45,8 +45,9 @@ export default function CharacterCard() {
   return (
     <>
       <div className="character-wrapper" role="presentation" onClick={reset} />
-      <div className="character-card-wrapper">
+      <div className="character-card-wrapper" data-testid="character-card">
         <button
+          data-testid="character-card-close"
           type="button"
           className="character-card_closed"
           onClick={() => reset()}

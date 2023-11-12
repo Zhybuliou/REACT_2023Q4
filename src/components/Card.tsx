@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 export default function Card({ name, url }: { name: string; url: string }) {
   const idCharacter = url.split('/')[url.split('/').length - 2];
   return (
-    <div className="card">
+    <div className="card" data-testid="card">
       <Link to={`character/${idCharacter}`}>
         <div className="wrapper-card">
           <div className="color_bg" />
