@@ -8,12 +8,13 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react';
+import { useContext } from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import App from '../App';
-import Cards from '../components/Cards';
 import Provider, { AppContext } from '../context/AppContext';
 import { Mock } from '../data/apiMock';
 import ErrorBoundary from '../components/ErrorBoundary';
+import App from '../App';
+import Cards from '../components/Cards';
 
 const setup = () => {
   act(() => {
@@ -167,5 +168,53 @@ describe('Tests ErrorComponent.tsx:', () => {
     const buttonError = screen.getByText('Get Error');
     fireEvent.click(buttonError);
     expect(screen.getByText(/This is a test error/i)).toBeInTheDocument();
+  });
+});
+
+function TestingComponent() {
+  const {
+    inputSearch,
+    pages,
+    storeCharacters,
+    perPage,
+    addPerPage,
+    addInputSearch,
+  } = useContext(AppContext);
+  return (
+    <>
+      <p data-testid="test-input-search">{inputSearch}</p>
+      <p data-testid="test-input-pages">{pages}</p>
+      <p data-testid="test-characters">{storeCharacters?.length}</p>
+      <p data-testid="test-perPage">{perPage}</p>
+      <button type="button" onClick={() => addPerPage('20')}>
+        change per page
+      </button>
+      <button type="button" onClick={() => addInputSearch('dd')}>
+        change input value
+      </button>
+    </>
+  );
+}
+
+describe('Tests Context:', () => {
+  it('Tests Context.', async () => {
+    render(
+      <MemoryRouter>
+        <AppContext.Provider value={Mock}>
+          <TestingComponent />
+        </AppContext.Provider>
+      </MemoryRouter>
+    );
+    expect(screen.getByTestId(/test-perPage/i).textContent).toBe('10');
+    expect(screen.getByTestId(/test-input-pages/i).textContent).toBe('1');
+    expect(screen.getByTestId(/test-input-search/i).textContent).toEqual('');
+    const changeButton = screen.getByText(/change per page/i);
+    fireEvent.click(changeButton);
+    const changeButtonInput = screen.getByText(/change input value/i);
+    fireEvent.click(changeButtonInput);
+    waitFor(() =>
+      expect(screen.getByTestId(/test-perPage/i).textContent).toBe('20')
+    );
+    waitFor(() => expect(screen.getByText(/dd/i)).toBeInTheDocument());
   });
 });

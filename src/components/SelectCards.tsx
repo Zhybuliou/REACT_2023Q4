@@ -14,8 +14,12 @@ export default function SelectCards() {
             addPerPage(`${event.target.value}`);
           }}
         >
-          <option value="10">10</option>
-          <option value="20">20</option>
+          <option data-testid="option-1" value="10">
+            10
+          </option>
+          <option data-testid="option-2" value="20">
+            20
+          </option>
         </select>
       </label>
     </div>
