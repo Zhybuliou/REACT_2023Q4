@@ -13,7 +13,7 @@
     "lint:fix": "eslint ./src --fix",
     "format:fix": "npx prettier --write .",
     "preview": "vite preview",
-    "postinstall": "cd .. && husky install react-components/.husky",
+    "postinstall": "husky install react-components/.husky",
     "prepare": "husky install"
   },
   "dependencies": {
