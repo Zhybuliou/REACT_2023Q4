@@ -1,20 +1,21 @@
 import { nanoid } from 'nanoid';
-import { useContext } from 'react';
+import { useSelector } from 'react-redux/es/hooks/useSelector';
 import { IPeople } from '../types/interface';
 import Card from './Card';
 import PageNotFound from './PageNotFound';
-import { AppContext } from '../context/AppContext';
+import { RootState } from '../store/store';
 
 export default function Cards() {
-  const { storeCharacters } = useContext(AppContext);
-  const arrayPeople = storeCharacters;
+  const characters = useSelector(
+    (state: RootState) => state.characters.characters
+  );
   return (
     <>
-      {arrayPeople?.length &&
-        arrayPeople?.map((card: IPeople) => (
+      {characters?.length &&
+        characters?.map((card: IPeople) => (
           <Card name={card.name} url={card.url} key={nanoid()} />
         ))}
-      {!arrayPeople?.length && <PageNotFound />}
+      {!characters?.length && <PageNotFound />}
     </>
   );
 }

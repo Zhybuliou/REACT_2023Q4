@@ -1,36 +1,47 @@
-import { useEffect, useContext } from 'react';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
-import apiRequest from '../service/apiRequest';
-import API_BASE_URL from '../data/url';
 import Loading from '../components/Loading';
 import SearchBlock from '../components/SearchBlock';
 import Cards from '../components/Cards';
 import ApiPagination from '../components/ApiPagination';
 import SelectCards from '../components/SelectCards';
-import { AppContext } from '../context/AppContext';
+
+import { RootState } from '../store/store';
+import { useGetApiResultQuery } from '../store/createApiResult';
+import {
+  addCharacters,
+  removeCharacters,
+} from '../store/sliceCharactersReducer';
+import API_BASE_URL from '../data/url';
+import apiRequest from '../service/apiRequest';
+import { addPage } from '../store/slicePagesReducer';
+import { IResultPeople } from '../types/interface';
 
 export default function HomePage() {
+  const inputSearch = useSelector(
+    (state: RootState) => state.inputSearch.inputSearch
+  );
+  const pages = useSelector((state: RootState) => state.pages.pages);
+  const perPage = useSelector((state: RootState) => state.perPage.perPage);
+  const characters = useSelector(
+    (state: RootState) => state.characters.characters
+  );
+
+  const dispatch = useDispatch();
   const { id, page } = useParams();
   const navigate = useNavigate();
-
-  const {
-    addStoreApiResult,
-    addAllCharacters,
-    removeStoreApiResult,
-    removeAllCharacters,
-    addPages,
-    inputSearch,
-    storeApiResult,
-    storeCharacters,
-    perPage,
-    pages,
-  } = useContext(AppContext);
+  const { data = [], isFetching } = useGetApiResultQuery(
+    {
+      search: inputSearch,
+      page: pages,
+    },
+    { refetchOnMountOrArgChange: true }
+  );
 
   const handlerOnTwenty = async (currentPage: string): Promise<void> => {
-    await removeAllCharacters();
-    const countPages = storeApiResult?.count
-      ? Math.ceil(storeApiResult.count / 10)
-      : 9;
+    dispatch(removeCharacters());
+    const countPages = data?.count ? Math.ceil(data.count / 10) : 9;
     let myPage = +currentPage! === 1 ? currentPage : +currentPage! + 1;
     if (+currentPage > 2) {
       myPage = +currentPage + 2;
@@ -45,64 +56,70 @@ export default function HomePage() {
       API_BASE_URL,
       inputSearch,
       `${myPage}`
-    ).then((data) => data.results);
+    ).then((res) => res.results);
 
     const promise2 =
       countPages >= +myPage + 1
         ? await apiRequest(API_BASE_URL, inputSearch, `${+myPage! + 1}`).then(
-            (data) => data.results
+            (response) => response.results
           )
         : [];
 
-    await Promise.all([promise, promise2]).then((data) =>
-      addAllCharacters(data.flat(Infinity))
+    await Promise.all([promise, promise2]).then((res) =>
+      dispatch(addCharacters(res.flat(Infinity)))
     );
   };
 
   const handlerOnClick = async (
-    value: string,
-    getPage: string = perPage
+    getPage: string,
+    resData: IResultPeople
   ): Promise<void> => {
-    await removeAllCharacters();
-    await removeStoreApiResult();
-    apiRequest(API_BASE_URL, value, '1').then((data) => {
-      addStoreApiResult(data);
-      if (getPage === '10') {
-        addAllCharacters(data.results);
-      }
-    });
+    await dispatch(addPage('1'));
     navigate('/pages/1', { replace: true });
+    await dispatch(removeCharacters());
+    if (getPage === '10') {
+      dispatch(addCharacters(resData?.results));
+    }
+
     if (getPage === '20') {
       handlerOnTwenty('1');
     }
     localStorage.setItem('search', inputSearch);
   };
 
-  const handlerOnChengUrl = async (getPerPage: string): Promise<void> => {
-    await removeAllCharacters();
-    await removeStoreApiResult();
-    await apiRequest(API_BASE_URL, inputSearch, page).then((data) => {
-      addStoreApiResult(data);
-      if (getPerPage === '10') {
-        addAllCharacters(data.results);
-      }
-    });
-    if (page) {
-      addPages(page);
-      if (getPerPage === '20') {
-        handlerOnTwenty(page);
-      }
+  const handlerOnChengUrl = async (
+    getPerPage: string,
+    resData: IResultPeople,
+    currentPage: string = '1'
+  ): Promise<void> => {
+    await dispatch(addPage(currentPage));
+    await dispatch(removeCharacters());
+
+    if (getPerPage === '10') {
+      dispatch(addCharacters(resData?.results));
+    }
+
+    if (getPerPage === '20') {
+      handlerOnTwenty(currentPage);
     }
   };
 
   useEffect(() => {
-    handlerOnClick(inputSearch).catch((error) => error);
+    handlerOnClick(perPage, data).catch((error) => error);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputSearch, perPage]);
 
   useEffect(() => {
-    if (!id && page !== pages) {
-      handlerOnChengUrl(perPage).catch((error) => error);
+    handlerOnChengUrl(perPage, data, page).catch((error) => error);
+    return () => {
+      dispatch(removeCharacters());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFetching]);
+
+  useEffect(() => {
+    if (!id) {
+      handlerOnChengUrl(perPage, data, page).catch((error) => error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
@@ -111,12 +128,12 @@ export default function HomePage() {
     <div className="home-page">
       <div className="home-page-header">
         <SelectCards />
-        {!!storeApiResult?.count && <ApiPagination />}
+        {!isFetching && <ApiPagination countItems={data.count} />}
         <SearchBlock />
       </div>
       <div className="home-page-content-wrapper">
         <div className="home-page-content">
-          {storeCharacters ? <Cards /> : <Loading />}
+          {characters.length && !isFetching ? <Cards /> : <Loading />}
         </div>
         <Outlet />
       </div>

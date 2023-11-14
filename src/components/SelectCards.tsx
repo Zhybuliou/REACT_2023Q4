@@ -1,8 +1,8 @@
-import { useContext } from 'react';
-import { AppContext } from '../context/AppContext';
+import { useDispatch } from 'react-redux';
+import { addPerPage } from '../store/slicePrePageReducer';
 
 export default function SelectCards() {
-  const { addPerPage } = useContext(AppContext);
+  const dispatch = useDispatch();
   return (
     <div className="select-input-characters-label">
       <label className="select-input-characters-label" htmlFor="select">
@@ -11,7 +11,7 @@ export default function SelectCards() {
           name="select"
           id="select"
           onChange={(event) => {
-            addPerPage(`${event.target.value}`);
+            dispatch(addPerPage(`${event.target.value}`));
           }}
         >
           <option data-testid="option-1" value="10">

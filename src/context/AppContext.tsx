@@ -59,7 +59,7 @@ const reducer = (state: InitialState, action: Action) => {
 
 export const AppContext = createContext<TypeContext>({} as TypeContext);
 
-function Provider({ children }: { children: React.ReactNode }) {
+function MyProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   const valueProps = {
@@ -95,4 +95,4 @@ function Provider({ children }: { children: React.ReactNode }) {
   return <AppContext.Provider value={foo}>{children}</AppContext.Provider>;
 }
 
-export default Provider;
+export default MyProvider;
