@@ -1,18 +1,18 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import url from '../data/url';
 
-const apiResult = createApi({
-  reducerPath: 'apiResult',
+const apiResultCharacters = createApi({
+  reducerPath: 'apiResultCharacters',
   baseQuery: fetchBaseQuery({
     baseUrl: `${url}/people/`,
   }),
   endpoints: (build) => ({
     getApiResult: build.query({
-      query: (arg) => `?search=${arg.search}&page=${arg.page}`,
+      query: (arg) => `${arg.id}`,
     }),
   }),
 });
 
-export default apiResult;
+export default apiResultCharacters;
 
-export const { useGetApiResultQuery } = apiResult;
+export const { useGetApiResultQuery } = apiResultCharacters;

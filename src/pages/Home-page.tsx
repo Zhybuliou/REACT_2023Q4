@@ -31,13 +31,10 @@ export default function HomePage() {
   const dispatch = useDispatch();
   const { id, page } = useParams();
   const navigate = useNavigate();
-  const { data = [], isFetching } = useGetApiResultQuery(
-    {
-      search: inputSearch,
-      page: pages,
-    },
-    { refetchOnMountOrArgChange: true }
-  );
+  const { data = [], isFetching } = useGetApiResultQuery({
+    search: inputSearch,
+    page: pages,
+  });
 
   const handlerOnTwenty = async (currentPage: string): Promise<void> => {
     dispatch(removeCharacters());

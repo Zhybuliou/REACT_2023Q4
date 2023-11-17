@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { addPerPage } from '../store/slicePrePageReducer';
+import { addPage } from '../store/slicePagesReducer';
 
 export default function SelectCards() {
   const dispatch = useDispatch();
@@ -12,6 +13,7 @@ export default function SelectCards() {
           id="select"
           onChange={(event) => {
             dispatch(addPerPage(`${event.target.value}`));
+            dispatch(addPage(`1`));
           }}
         >
           <option data-testid="option-1" value="10">

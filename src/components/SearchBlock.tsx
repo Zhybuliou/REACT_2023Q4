@@ -8,7 +8,9 @@ export default function SearchBlock() {
   const searchValue = useSelector(
     (state: RootState) => state.inputSearch.inputSearch
   );
-  const [searchString, setSearchString] = useState(searchValue || '');
+  const [searchString, setSearchString] = useState(
+    searchValue || localStorage.getItem('search')
+  );
 
   function handlerOnChange(event: React.ChangeEvent<HTMLInputElement>): void {
     setSearchString(event.target.value);
