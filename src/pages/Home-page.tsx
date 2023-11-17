@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 import Loading from '../components/Loading';
 import SearchBlock from '../components/SearchBlock';
 import Cards from '../components/Cards';
@@ -17,23 +17,21 @@ import API_BASE_URL from '../data/url';
 import apiRequest from '../service/apiRequest';
 import { addPage } from '../store/slicePagesReducer';
 import { IResultPeople } from '../types/interface';
+import PageNotFound from '../components/PageNotFound';
 
 export default function HomePage() {
   const inputSearch = useSelector(
     (state: RootState) => state.inputSearch.inputSearch
   );
-  const pages = useSelector((state: RootState) => state.pages.pages);
   const perPage = useSelector((state: RootState) => state.perPage.perPage);
   const characters = useSelector(
     (state: RootState) => state.characters.characters
   );
-
   const dispatch = useDispatch();
   const { id, page } = useParams();
-  const navigate = useNavigate();
   const { data = [], isFetching } = useGetApiResultQuery({
     search: inputSearch,
-    page: pages,
+    page,
   });
 
   const handlerOnTwenty = async (currentPage: string): Promise<void> => {
@@ -72,7 +70,6 @@ export default function HomePage() {
     resData: IResultPeople
   ): Promise<void> => {
     await dispatch(addPage('1'));
-    navigate('/pages/1', { replace: true });
     await dispatch(removeCharacters());
     if (getPage === '10') {
       dispatch(addCharacters(resData?.results));
@@ -107,30 +104,28 @@ export default function HomePage() {
   }, [inputSearch, perPage]);
 
   useEffect(() => {
-    handlerOnChengUrl(perPage, data, page).catch((error) => error);
+    if (!id) {
+      handlerOnChengUrl(perPage, data, page).catch((error) => error);
+    }
     return () => {
       dispatch(removeCharacters());
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isFetching]);
-
-  useEffect(() => {
-    if (!id) {
-      handlerOnChengUrl(perPage, data, page).catch((error) => error);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [page, isFetching]);
 
   return (
     <div className="home-page">
       <div className="home-page-header">
         <SelectCards />
-        {!isFetching && <ApiPagination countItems={data.count} />}
+        {!!characters.length && !isFetching && (
+          <ApiPagination countItems={data.count} />
+        )}
         <SearchBlock />
       </div>
       <div className="home-page-content-wrapper">
         <div className="home-page-content">
-          {characters.length && !isFetching ? <Cards /> : <Loading />}
+          {!data.count && !isFetching && <PageNotFound />}
+          {!!characters.length && !isFetching ? <Cards /> : <Loading />}
         </div>
         <Outlet />
       </div>

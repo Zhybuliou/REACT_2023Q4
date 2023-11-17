@@ -1,56 +1,62 @@
 import '@testing-library/jest-dom';
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { useContext } from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { AppContext } from '../context/AppContext';
-import { Mock } from '../data/apiMock';
+import { Provider, useSelector, useDispatch } from 'react-redux';
 import App from '../App';
+import { RootState, store } from '../store/store';
+import { addInputSearch } from '../store/sliceSearchReducer';
+import { addPerPage } from '../store/slicePrePageReducer';
+import ErrorBoundary from '../components/ErrorBoundary';
 
-// const setup = () => {
-//   act(() => {
-//     render(
-//       <MemoryRouter>
-//         <App />
-//       </MemoryRouter>
-//     );
-//   });
-// };
-// const setupApi = () => {
-//   act(() => {
-//     render(
-//       <MemoryRouter>
-//         <AppContext.Provider value={Mock}>
-//           <App />
-//         </AppContext.Provider>
-//       </MemoryRouter>
-//     );
-//   });
-// };
-
-// describe('5 Tests for the Card List component', () => {
-//   it('Check render page App', () => {
-//     setup();
-//     expect(screen.getByText(/Star wars/i)).toBeInTheDocument();
-//   });
-//   it('Check that an appropriate message is displayed if no cards are present', () => {
-//     act(() => {
-//       render(
-//         <Provider>
-//           <Cards />
-//         </Provider>
-//       );
-//     });
-//     expect(
-//       screen.getByText(/This is not page you are looking for/i)
-//     ).toBeInTheDocument();
-//   });
-//   it('Verify that the component renders the specified number of cards', async () => {
-//     await setupApi();
-//     const items = screen.getAllByTestId('card');
-//     expect(items.length).toBe(10);
-//   });
-// });
+describe('5 Tests for the Card List component', () => {
+  it('Check render page App', () => {
+    render(
+      <ErrorBoundary>
+        <MemoryRouter>
+          <Provider store={store}>
+            <App />
+          </Provider>
+        </MemoryRouter>
+      </ErrorBoundary>
+    );
+    expect(screen.getByText(/Star wars/i)).toBeInTheDocument();
+  });
+  // it('Check that an appropriate message is displayed if no cards are present', async () => {
+  //   await act(() => {
+  //     render(
+  //       <ErrorBoundary>
+  //         <MemoryRouter initialEntries={['/pages/1222/']}>
+  //           <Provider store={store}>
+  //             <App />
+  //           </Provider>
+  //         </MemoryRouter>
+  //       </ErrorBoundary>
+  //     );
+  //   });
+  //   waitFor(() =>
+  //     expect(
+  //       screen.getByText(/This is not page you are looking for/i)
+  //     ).toBeInTheDocument()
+  //   );
+  //   expect(
+  //     screen.getByText(/This is not page you are looking for/i)
+  //   ).toBeInTheDocument();
+  // });
+  // it('Verify that the component renders the specified number of cards', async () => {
+  //   await render(
+  //     <ErrorBoundary>
+  //       <MemoryRouter>
+  //         <Provider store={store}>
+  //           <App />
+  //         </Provider>
+  //       </MemoryRouter>
+  //     </ErrorBoundary>
+  //   );
+  //   const items = screen.getAllByTestId('card');
+  //   expect(items.length).toBe(10);
+  // });
+});
 
 // describe('6 Tests for the Card component:', () => {
 //   it('Ensure that the card component renders the relevant card data', async () => {
@@ -115,7 +121,15 @@ import App from '../App';
 //     });
 //   });
 //   it('Verify that clicking the Search button saves the entered value to the local storage;', async () => {
-//     await setupApi();
+//     await render(
+//       <ErrorBoundary>
+//         <MemoryRouter>
+//           <Provider store={store}>
+//             <App />
+//           </Provider>
+//         </MemoryRouter>
+//       </ErrorBoundary>
+//     );
 //     const input = screen.getByTestId('input-search') as HTMLInputElement;
 //     fireEvent.change(input, { target: { value: 'dd' } });
 //     const button = screen.getByTestId('button-search') as HTMLElement;
@@ -125,7 +139,15 @@ import App from '../App';
 //     );
 //   });
 //   it('Check that the component retrieves the value from the local storage upon mounting.', async () => {
-//     await setupApi();
+//     render(
+//       <ErrorBoundary>
+//         <MemoryRouter>
+//           <Provider store={store}>
+//             <App />
+//           </Provider>
+//         </MemoryRouter>
+//       </ErrorBoundary>
+//     );
 //     await waitFor(() =>
 //       expect(window.localStorage.getItem('search')).toEqual(null)
 //     );
@@ -134,53 +156,54 @@ import App from '../App';
 
 describe('10 Tests for the 404 Page component:', () => {
   it('Ensure that the 404 page is displayed when navigating to an invalid route.', async () => {
-    await render(
+    render(
       <MemoryRouter initialEntries={['/pagess/1/']}>
-        <AppContext.Provider value={Mock}>
+        <Provider store={store}>
           <App />
-        </AppContext.Provider>
+        </Provider>
       </MemoryRouter>
     );
-    await expect(screen.getByText('404'));
+    expect(screen.getByText('404'));
   });
 });
 
-// describe('Tests ErrorComponent.tsx:', () => {
-//   it('Ensure that the 404 page is displayed when navigating to an invalid route.', async () => {
-//     await render(
-//       <ErrorBoundary>
-//         <MemoryRouter>
-//           <AppContext.Provider value={Mock}>
-//             <App />
-//           </AppContext.Provider>
-//         </MemoryRouter>
-//       </ErrorBoundary>
-//     );
-//     const buttonError = screen.getByText('Get Error');
-//     fireEvent.click(buttonError);
-//     expect(screen.getByText(/This is a test error/i)).toBeInTheDocument();
-//   });
-// });
+describe('Tests ErrorComponent.tsx:', () => {
+  it('Ensure that the 404 page is displayed when navigating to an invalid route.', async () => {
+    render(
+      <ErrorBoundary>
+        <MemoryRouter>
+          <Provider store={store}>
+            <App />
+          </Provider>
+        </MemoryRouter>
+      </ErrorBoundary>
+    );
+    const buttonError = screen.getByText('Get Error');
+    fireEvent.click(buttonError);
+    expect(screen.getByText(/This is a test error/i)).toBeInTheDocument();
+  });
+});
 
 function TestingComponent() {
-  const {
-    inputSearch,
-    pages,
-    storeCharacters,
-    perPage,
-    addPerPage,
-    addInputSearch,
-  } = useContext(AppContext);
+  const inputSearch = useSelector(
+    (state: RootState) => state.inputSearch.inputSearch
+  );
+  const pages = useSelector((state: RootState) => state.pages.pages);
+  const perPage = useSelector((state: RootState) => state.perPage.perPage);
+  const characters = useSelector(
+    (state: RootState) => state.characters.characters
+  );
+  const dispatch = useDispatch();
   return (
     <>
       <p data-testid="test-input-search">{inputSearch}</p>
       <p data-testid="test-input-pages">{pages}</p>
-      <p data-testid="test-characters">{storeCharacters?.length}</p>
+      <p data-testid="test-characters">{characters?.length}</p>
       <p data-testid="test-perPage">{perPage}</p>
-      <button type="button" onClick={() => addPerPage('20')}>
+      <button type="button" onClick={() => dispatch(addPerPage('20'))}>
         change per page
       </button>
-      <button type="button" onClick={() => addInputSearch('dd')}>
+      <button type="button" onClick={() => dispatch(addInputSearch('dd'))}>
         change input value
       </button>
     </>
@@ -191,9 +214,9 @@ describe('Tests Context:', () => {
   it('Tests Context.', async () => {
     render(
       <MemoryRouter>
-        <AppContext.Provider value={Mock}>
+        <Provider store={store}>
           <TestingComponent />
-        </AppContext.Provider>
+        </Provider>
       </MemoryRouter>
     );
     expect(screen.getByTestId(/test-perPage/i).textContent).toBe('10');
@@ -206,6 +229,6 @@ describe('Tests Context:', () => {
     waitFor(() =>
       expect(screen.getByTestId(/test-perPage/i).textContent).toBe('20')
     );
-    waitFor(() => expect(screen.getByText(/dd/i)).toBeInTheDocument());
+    waitFor(() => expect(screen.getByText(/'dd'/i)).toBeInTheDocument());
   });
 });
