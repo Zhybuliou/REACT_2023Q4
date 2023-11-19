@@ -100,6 +100,9 @@ export default function HomePage() {
 
   useEffect(() => {
     handlerOnClick(perPage, data).catch((error) => error);
+    return () => {
+      dispatch(removeCharacters());
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputSearch, perPage]);
 
