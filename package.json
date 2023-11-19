@@ -17,6 +17,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@testing-library/react": "^14.1.0",
     "@jest/globals": "^29.7.0",
     "@ngrx/store": "^16.3.0",
     "@reduxjs/toolkit": "^1.9.7",
@@ -32,7 +33,6 @@
   "devDependencies": {
     "@testing-library/dom": "^9.3.3",
     "@testing-library/jest-dom": "^6.1.4",
-    "@testing-library/react": "^14.1.0",
     "@testing-library/user-event": "^14.5.1",
     "@types/jest": "^29.5.8",
     "@types/mocha": "^10.0.4",
