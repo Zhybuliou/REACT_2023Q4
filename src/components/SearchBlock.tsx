@@ -1,11 +1,16 @@
-import { useContext, useState } from 'react';
-import { AppContext } from '../context/AppContext';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { RootState } from '../store/store';
+import { addInputSearch } from '../store/sliceSearchReducer';
 
 export default function SearchBlock() {
-  const inputSearch = useContext(AppContext);
-  const [searchString, setSearchString] = useState(
-    inputSearch.inputSearch || ''
+  const dispatch = useDispatch();
+  const searchValue = useSelector(
+    (state: RootState) => state.inputSearch.inputSearch
   );
+  const [searchString, setSearchString] = useState(searchValue || '');
+  const navigate = useNavigate();
 
   function handlerOnChange(event: React.ChangeEvent<HTMLInputElement>): void {
     setSearchString(event.target.value);
@@ -21,14 +26,14 @@ export default function SearchBlock() {
         value={searchString}
         onChange={(event) => handlerOnChange(event)}
         onKeyUp={(event) =>
-          event.key === 'Enter' &&
-          inputSearch.addInputSearch(searchString.trim())
+          event.key === 'Enter' && dispatch(addInputSearch(searchString.trim()))
         }
       />
       <button
         data-testid="button-search"
         onClick={async () => {
-          inputSearch.addInputSearch(searchString.trim());
+          dispatch(addInputSearch(searchString.trim()));
+          navigate('/pages/1', { replace: true });
         }}
         type="submit"
         className="search-block-button"

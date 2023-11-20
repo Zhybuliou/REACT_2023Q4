@@ -1,11 +1,10 @@
 import { nanoid } from 'nanoid';
-import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import { AppContext } from '../context/AppContext';
+import { useSelector } from 'react-redux/es/hooks/useSelector';
+import { RootState } from '../store/store';
 
-export default function ApiPagination() {
-  const { perPage, storeApiResult } = useContext(AppContext);
-  const countItems = storeApiResult?.count;
+export default function ApiPagination({ countItems }: { countItems: number }) {
+  const perPage = useSelector((state: RootState) => state.perPage.perPage);
   const delPagination = perPage === '10' ? 10 : 20;
   const pages = countItems && Math.ceil(countItems / delPagination);
   const pagesArray = new Array(pages).fill(1);

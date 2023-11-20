@@ -1,33 +1,26 @@
-import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { nanoid } from 'nanoid';
-import { IPeople } from '../types/interface';
-import API_BASE_URL from '../data/url';
-import apiRequestCharacter from '../service/apiRequestCharacter';
 import Loading from './Loading';
 import planets from '../data/planets';
+import { useGetApiResultQuery } from '../store/createApiCharacters';
 
 export default function CharacterCard() {
-  const [character, setCharacter] = useState<IPeople | null>(null);
   const { id } = useParams();
   const navigate = useNavigate();
   let idPlanet = '';
-
-  useEffect(() => {
-    if (id) {
-      setCharacter(null);
-      apiRequestCharacter(API_BASE_URL, id).then((data) => setCharacter(data));
-    }
-  }, [id]);
+  const { data = [], isFetching } = useGetApiResultQuery(
+    {
+      id,
+    },
+    { refetchOnMountOrArgChange: true }
+  );
 
   const reset = (): void => {
     navigate('../', { replace: true });
   };
-  if (typeof character?.homeworld === 'string') {
+  if (typeof data?.homeworld === 'string') {
     idPlanet =
-      character!.homeworld.split('/')[
-        character!.homeworld.split('/').length - 2
-      ];
+      data!.homeworld.split('/')[data!.homeworld.split('/').length - 2];
   }
   let urlImage = `url(https://starwars-visualguide.com/assets/img/planets/${idPlanet}.jpg)`;
   if (planets[`${idPlanet}`] === 'Tatooin') {
@@ -54,7 +47,7 @@ export default function CharacterCard() {
         >
           &#10006;
         </button>
-        {!character ? (
+        {isFetching ? (
           <Loading />
         ) : (
           <>
@@ -67,27 +60,27 @@ export default function CharacterCard() {
 
             <div className="character-card-content">
               <div className="character-card-title">
-                <h1>{character.name}</h1>
+                <h1>{data.name}</h1>
               </div>
               <div className="character-card-description">
                 <ul>
                   <li>
-                    <strong>Birth Year:</strong> {character.birth_year}
+                    <strong>Birth Year:</strong> {data.birth_year}
                   </li>
                   <li>
-                    <strong>Height:</strong> {character.height}
+                    <strong>Height:</strong> {data.height}
                   </li>
                   <li>
-                    <strong>Mass:</strong> {character.mass}
+                    <strong>Mass:</strong> {data.mass}
                   </li>
                   <li>
-                    <strong>Gender:</strong> {character.gender}
+                    <strong>Gender:</strong> {data.gender}
                   </li>
                   <li>
-                    <strong>Hair Color:</strong> {character.hair_color}
+                    <strong>Hair Color:</strong> {data.hair_color}
                   </li>
                   <li>
-                    <strong>Skin Color:</strong> {character.skin_color}
+                    <strong>Skin Color:</strong> {data.skin_color}
                   </li>
                   <li>
                     <strong>Homeworld: </strong>
@@ -103,7 +96,7 @@ export default function CharacterCard() {
               />
               <div className="character-card-description">
                 <h2>Films:</h2>
-                {character.films.map((film) => (
+                {data.films.map((film: string) => (
                   <div
                     key={nanoid()}
                     className="character-card_planet"
