@@ -1,4 +1,6 @@
+import ApiPagination from '@/components/ApiPagination'
 import Header from '@/components/Header'
+import SearchBlock from '@/components/SearchBlock'
 import SelectCards from '@/components/SelectCards'
 import React from 'react'
 
@@ -8,11 +10,8 @@ export default function Home() {
       <div className="home-page">
       <div className="home-page-header">
       <SelectCards />
-        {/*
-        {!!characters.length && !isFetching && (
-          <ApiPagination countItems={data.count} />
-        )}
-        <SearchBlock /> */}
+      <ApiPagination countItems={80} />
+      <SearchBlock />
       </div>
       <div className="home-page-content-wrapper">
         {/* <div className="home-page-content">
