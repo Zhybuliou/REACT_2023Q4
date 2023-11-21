@@ -123,6 +123,7 @@ a {
 }
 .home-page-content-wrapper {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
 }
 .home-page-content {
