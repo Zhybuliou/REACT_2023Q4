@@ -1,5 +1,4 @@
-import Link from "next/link";
-
+import Link from 'next/link';
 
 export default function Card({ name, url }: { name: string; url: string }) {
   const idCharacter = url.split('/')[url.split('/').length - 2];

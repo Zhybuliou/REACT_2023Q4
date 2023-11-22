@@ -6,11 +6,11 @@ export default function SelectCards() {
         <select
           name="select"
           id="select"
-        //   onChange={(event) => {
-        //     dispatch(addPerPage(`${event.target.value}`));
-        //     dispatch(addPage(`1`));
-        //     navigate('/pages/1', { replace: true });
-        //   }}
+          //   onChange={(event) => {
+          //     dispatch(addPerPage(`${event.target.value}`));
+          //     dispatch(addPage(`1`));
+          //     navigate('/pages/1', { replace: true });
+          //   }}
         >
           <option data-testid="option-1" value="10">
             10

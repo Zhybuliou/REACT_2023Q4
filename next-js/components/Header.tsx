@@ -1,11 +1,11 @@
-import ErrorButton from "./ErrorButton";
-import Logo from "./Logo";
+import ErrorButton from './ErrorButton';
+import Logo from './Logo';
 
 export default function Header() {
-    return (
-      <div className="header">
-        <Logo />
-        <ErrorButton />
-      </div>
-    );
-  }
+  return (
+    <div className="header">
+      <Logo />
+      <ErrorButton />
+    </div>
+  );
+}

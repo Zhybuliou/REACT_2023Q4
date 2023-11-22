@@ -5,12 +5,12 @@ import { useState } from 'react';
 // import { addInputSearch } from '../store/sliceSearchReducer';
 
 export default function SearchBlock() {
-//   const dispatch = useDispatch();
-//   const searchValue = useSelector(
-//     (state: RootState) => state.inputSearch.inputSearch
-//   );
+  //   const dispatch = useDispatch();
+  //   const searchValue = useSelector(
+  //     (state: RootState) => state.inputSearch.inputSearch
+  //   );
   const [searchString, setSearchString] = useState('');
-//   const navigate = useNavigate();
+  //   const navigate = useNavigate();
 
   function handlerOnChange(event: React.ChangeEvent<HTMLInputElement>): void {
     setSearchString(event.target.value);
@@ -32,8 +32,8 @@ export default function SearchBlock() {
       <button
         data-testid="button-search"
         onClick={async () => {
-        //   dispatch(addInputSearch(searchString.trim()));
-        //   navigate('/pages/1', { replace: true });
+          //   dispatch(addInputSearch(searchString.trim()));
+          //   navigate('/pages/1', { replace: true });
         }}
         type="submit"
         className="search-block-button"
