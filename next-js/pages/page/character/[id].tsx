@@ -28,7 +28,6 @@ export async function getStaticProps({ params }: { params: { id: string } }) {
 export default function Details({
   people,
   id,
-  page,
 }: {
   people: IPeople;
   id: string;

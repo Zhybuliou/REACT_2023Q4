@@ -1,8 +1,6 @@
 import ApiPagination from '@/components/ApiPagination';
 import Cards from '@/components/Cards';
-import Header from '@/components/Header';
 import Loading from '@/components/Loading';
-import PageNotFound from '@/components/NotFound';
 import SearchBlock from '@/components/SearchBlock';
 import SelectCards from '@/components/SelectCards';
 import { IResultPeople } from '@/types/interface';
