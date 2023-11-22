@@ -4,7 +4,7 @@ export default function Card({ name, url }: { name: string; url: string }) {
   const idCharacter = url.split('/')[url.split('/').length - 2];
   return (
     <div className="card" data-testid="card">
-      <Link href={`character/${idCharacter}`}>
+      <Link href={`./character/${idCharacter}`}>
         <div className="wrapper-card">
           <div className="color_bg" />
           <div

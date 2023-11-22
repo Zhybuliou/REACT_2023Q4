@@ -16,7 +16,7 @@ export default function ApiPagination({ countItems }: { countItems: number }) {
         <Link
           role="button"
           style={
-            router.pathname === `/pages/${button + i}`
+            router.pathname === `/page/${button + i}`
               ? {
                   color: '#000',
                   background: '#ffe81f',
@@ -40,7 +40,7 @@ export default function ApiPagination({ countItems }: { countItems: number }) {
                   border: 'solid 3px #ffe81f',
                 }
           }
-          href={`/pages/${button + i}`}
+          href={`/page/${button + i}`}
           key={nanoid()}
         >
           {button + i}

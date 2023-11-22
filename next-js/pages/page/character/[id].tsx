@@ -28,13 +28,15 @@ export async function getStaticProps({ params }: { params: { id: string } }) {
 export default function Details({
   people,
   id,
+  page,
 }: {
   people: IPeople;
   id: string;
+  page: string;
 }) {
   const router = useRouter();
   const reset = () => {
-    router.push('/');
+    router.back();
   };
   let idPlanet = '';
   if (typeof people?.homeworld === 'string') {
