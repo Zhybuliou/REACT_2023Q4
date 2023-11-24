@@ -16,7 +16,7 @@ export default function ApiPagination({ countItems }: { countItems: number }) {
         <Link
           role="button"
           style={
-            router.pathname === `/page/${button + i}`
+            router.asPath.includes(`/page/${button + i}`)
               ? {
                   color: '#000',
                   background: '#ffe81f',
