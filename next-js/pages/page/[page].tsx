@@ -1,9 +1,12 @@
+'use client';
 import ApiPagination from '@/components/ApiPagination';
 import Cards from '@/components/Cards';
+import Details from '@/components/Character';
 import Loading from '@/components/Loading';
 import SearchBlock from '@/components/SearchBlock';
 import SelectCards from '@/components/SelectCards';
 import { IResultPeople } from '@/types/interface';
+import { useRouter } from 'next/router';
 import React from 'react';
 
 export async function getStaticPaths() {
@@ -19,7 +22,7 @@ export async function getStaticPaths() {
 export async function getStaticProps({
   params,
 }: {
-  params: { id: string; page: string };
+  params: { id: string; page: string; };
 }) {
   const resp = await fetch(`https://swapi.dev/api/people/?page=${params.page}`);
 
@@ -30,7 +33,13 @@ export async function getStaticProps({
   };
 }
 
-export default function Page({ characters }: { characters: IResultPeople }) {
+export default function Page({
+  characters,
+}: {
+  characters: IResultPeople;
+}) {
+  const router = useRouter();
+  const checkCharacter = router.query.character;
   return (
     <div>
       <div className="home-page">
@@ -40,12 +49,10 @@ export default function Page({ characters }: { characters: IResultPeople }) {
           <SearchBlock />
         </div>
         <div className="home-page-content-wrapper">
-          {!!characters ? <Cards characters={characters} /> : <Loading />}
-          {/* <div className="home-page-content">
-          {!data.count && !isFetching && <PageNotFound />}
-          {!!characters.length && !isFetching ? <Cards /> : <Loading />}
-        </div>
-        <Outlet /> */}
+          <div className="home-page-content">
+            {!!characters ? <Cards characters={characters} /> : <Loading />}
+          </div>
+          {checkCharacter && <Details />}
         </div>
       </div>
     </div>
