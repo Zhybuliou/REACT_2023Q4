@@ -22,7 +22,7 @@ export async function getStaticPaths() {
 export async function getStaticProps({
   params,
 }: {
-  params: { id: string; page: string; };
+  params: { id: string; page: string };
 }) {
   const resp = await fetch(`https://swapi.dev/api/people/?page=${params.page}`);
 
@@ -33,11 +33,7 @@ export async function getStaticProps({
   };
 }
 
-export default function Page({
-  characters,
-}: {
-  characters: IResultPeople;
-}) {
+export default function Page({ characters }: { characters: IResultPeople }) {
   const router = useRouter();
   const checkCharacter = router.query.character;
   return (
