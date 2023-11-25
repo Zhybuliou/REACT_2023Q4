@@ -1,20 +1,22 @@
+import router from 'next/router';
 import { useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { useNavigate } from 'react-router-dom';
-// import { RootState } from '../store/store';
-// import { addInputSearch } from '../store/sliceSearchReducer';
 
 export default function SearchBlock() {
-  //   const dispatch = useDispatch();
-  //   const searchValue = useSelector(
-  //     (state: RootState) => state.inputSearch.inputSearch
-  //   );
-  const [searchString, setSearchString] = useState('');
-  //   const navigate = useNavigate();
+
+  const [search, setSearch] = useState('');
 
   function handlerOnChange(event: React.ChangeEvent<HTMLInputElement>): void {
-    setSearchString(event.target.value);
+    setSearch(event.target.value);
   }
+  function addSearchParams(search: string){
+    const page = '1'
+    const newPathObject = {
+      pathname: router.pathname,
+      query: {...router.query, search, page}
+    }
+    router.push(newPathObject, undefined, { shallow: false });
+  }
+
   return (
     <div className="search-block">
       <input
@@ -23,18 +25,15 @@ export default function SearchBlock() {
         name="value"
         type="text"
         placeholder="search character ..."
-        value={searchString}
+        value={search}
         onChange={(event) => handlerOnChange(event)}
-        // onKeyUp={(event) =>
-        //   event.key === 'Enter' && dispatch(addInputSearch(searchString.trim()))
-        // }
+        onKeyUp={(event) =>
+          event.key === 'Enter' && addSearchParams(search)
+        }
       />
       <button
         data-testid="button-search"
-        onClick={async () => {
-          //   dispatch(addInputSearch(searchString.trim()));
-          //   navigate('/pages/1', { replace: true });
-        }}
+        onClick={() => addSearchParams(search)}
         type="submit"
         className="search-block-button"
       >
