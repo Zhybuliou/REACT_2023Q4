@@ -54,7 +54,7 @@ module.exports = {
     '^.+\\.module\\.(css|sass|scss)$',
     `/node_modules/(?!lodash-es|nanoid)`,
   ],
-  coveragePathIgnorePatterns: ['interface.ts','_app.tsx','index.tsx'],
+  coveragePathIgnorePatterns: ['interface.ts', '_app.tsx', 'index.tsx'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   verbose: true,
   bail: 1,

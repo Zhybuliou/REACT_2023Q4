@@ -18,6 +18,7 @@ import Cards from '@/components/Cards';
 import planets from '@/data/planets';
 import SearchBlock from '@/components/SearchBlock';
 import NavigationLoader from '@/components/NavigateLoader';
+import { apiResults } from '@/data/apiResults';
 
 jest.mock('next/router', () => jest.requireActual('next-router-mock'));
 jest.mock('next/router', () => require('next-router-mock'));
@@ -72,7 +73,7 @@ describe('Check render Cards', () => {
     render(
       <ErrorBoundary>
         <Layout>
-          <Cards characters={apiMock} />
+          <Cards result={apiMock.results} />
         </Layout>
       </ErrorBoundary>
     );
@@ -85,7 +86,7 @@ describe('Check render  ApiPagination', () => {
     render(
       <ErrorBoundary>
         <Layout>
-          <ApiPagination countItems={89} />
+          <ApiPagination countItems={89} per_page={10} />
         </Layout>
       </ErrorBoundary>
     );
@@ -140,8 +141,14 @@ describe('Check render  NavigationLoader', () => {
 
 describe('Page', () => {
   test('renders Page', () => {
-    const wrapper = render(<Page characters={apiMock} />);
+    const wrapper = render(<Page characters={apiMock} result={apiMock.results} per_page={10}/>);
     expect(wrapper.getByText(/Search/i)).toBeInTheDocument();
     expect(wrapper.getAllByTestId(/card/i).length).toBe(10);
+  });
+});
+describe('Page count ', () => {
+  test('renders Page', () => {
+    const wrapper = render(<Page characters={apiMock} result={apiResults} per_page={20}/>);
+    expect(wrapper.getAllByTestId(/card/i).length).toBe(20);
   });
 });

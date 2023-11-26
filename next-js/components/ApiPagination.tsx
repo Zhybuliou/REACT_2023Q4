@@ -2,10 +2,9 @@ import { nanoid } from 'nanoid';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-export default function ApiPagination({ countItems }: { countItems: number }) {
-  //   const perPage = useSelector((state: RootState) => state.perPage.perPage);
-  //   const delPagination = perPage === '10' ? 10 : 20;
-  const pages = countItems && Math.ceil(countItems / 10);
+export default function ApiPagination({ countItems, per_page }: { countItems: number, per_page: number }) {
+  const delPagination = per_page === 10 ? 10 : 20;
+  const pages = countItems && Math.ceil(countItems / delPagination);
   const pagesArray = new Array(pages).fill(1);
   const router = useRouter();
 
@@ -41,7 +40,6 @@ export default function ApiPagination({ countItems }: { countItems: number }) {
                 }
           }
           href={{
-            // pathname: "/posts",
             query: { ...router.query, page: `${button + i}` },
           }}
           key={nanoid()}

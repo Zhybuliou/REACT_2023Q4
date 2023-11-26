@@ -1,6 +1,6 @@
 /**
  * @jest-environment jsdom
- * @jest-environment-options {"url": "http://localhost:3000/page/1?character=1"}
+ * @jest-environment-options {"url": "http://localhost:3000/page/1?character=1&?per_page=10"}
  */
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
