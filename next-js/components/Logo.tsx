@@ -1,9 +1,10 @@
+import Link from 'next/link';
 export default function Logo() {
   return (
     <div className="logo">
-      <a className="logo-link text-style" href="/page/1">
+      <Link className="logo-link text-style" href="/page/1">
         Star Wars
-      </a>
+      </Link>
     </div>
   );
 }
