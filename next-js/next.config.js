@@ -7,7 +7,7 @@ module.exports = {
     return [
       {
         source: '/',
-        destination: '/page/1', // Matched parameters can be used in the destination
+        destination: '/page/1', 
         permanent: true,
       },
     ];
