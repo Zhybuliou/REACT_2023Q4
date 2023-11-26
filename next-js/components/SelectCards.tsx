@@ -1,4 +1,7 @@
+import router from "next/router";
+
 export default function SelectCards() {
+
   return (
     <div className="select-input-characters-label">
       <label className="select-input-characters-label" htmlFor="select">
@@ -6,11 +9,14 @@ export default function SelectCards() {
         <select
           name="select"
           id="select"
-          //   onChange={(event) => {
-          //     dispatch(addPerPage(`${event.target.value}`));
-          //     dispatch(addPage(`1`));
-          //     navigate('/pages/1', { replace: true });
-          //   }}
+            onChange={(event) => {
+              const per_page = event.target.value;
+                  const newPathObject = {
+                  pathname: router.pathname,
+                  query: { ...router.query, per_page },
+          };
+            router.push(newPathObject, undefined, { shallow: false });
+            }}
         >
           <option data-testid="option-1" value="10">
             10
