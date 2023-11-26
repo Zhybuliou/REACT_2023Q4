@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }: AppProps<CustomPageProps>) {
         <NavigateLoader />
         <Component {...pageProps} />
       </Layout>
-      </ErrorBoundary>
+    </ErrorBoundary>
   );
 }
 

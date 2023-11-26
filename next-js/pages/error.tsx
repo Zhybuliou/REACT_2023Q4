@@ -4,7 +4,7 @@ import mandalorian from '../assets/shooting-fire-din-djarin.gif';
 import { useRouter } from 'next/router';
 
 export default function PageError({ ...props }) {
-    const router = useRouter()
+  const router = useRouter();
   const { error } = props;
   return (
     <div className="page-error">

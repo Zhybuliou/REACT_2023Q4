@@ -24,13 +24,13 @@ export default function Details() {
 
   const reset = () => {
     setPeople(null);
-      const character='';
-      const newPathObject = {
-        pathname: router.pathname,
-        query: {...router.query, character},
-        params: {page: '1'}
-      }
-      router.push(newPathObject, undefined, { shallow: true });
+    const character = '';
+    const newPathObject = {
+      pathname: router.pathname,
+      query: { ...router.query, character },
+      params: { page: '1' },
+    };
+    router.push(newPathObject, undefined, { shallow: true });
   };
   let idPlanet = '';
   if (typeof people?.homeworld === 'string') {

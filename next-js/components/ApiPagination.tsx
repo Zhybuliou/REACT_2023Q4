@@ -42,7 +42,7 @@ export default function ApiPagination({ countItems }: { countItems: number }) {
           }
           href={{
             // pathname: "/posts",
-            query: {...router.query, page: `${button + i}` },
+            query: { ...router.query, page: `${button + i}` },
           }}
           key={nanoid()}
         >

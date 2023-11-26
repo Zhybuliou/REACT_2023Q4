@@ -10,12 +10,16 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 export const getServerSideProps = (async (context) => {
-  const res = await fetch(`https://swapi.dev/api/people/?search=${context.query.search || ''}&page=${context.query.page}`)
-  const repo = await res.json()
-  return { props: { characters : repo } }
+  const res = await fetch(
+    `https://swapi.dev/api/people/?search=${context.query.search || ''}&page=${
+      context.query.page
+    }`
+  );
+  const repo = await res.json();
+  return { props: { characters: repo } };
 }) satisfies GetServerSideProps<{
-  characters: IResultPeople
-}>
+  characters: IResultPeople;
+}>;
 
 export default function Page({ characters }: { characters: IResultPeople }) {
   const router = useRouter();
