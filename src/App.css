@@ -1,0 +1,24 @@
+#root {
+  max-width: 1280px;
+  overflow: hidden;
+  margin: 0 auto;
+  font-family: 'Star Wars', sans-serif;
+  color: white;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1280px;
+  height: 100px;
+  padding: 0px 20px 0px 20px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  padding: 5px;
+}
+.logo-link {
+  font-size: 42px;
+}
