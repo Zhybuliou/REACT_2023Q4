@@ -6,8 +6,24 @@ export default function Header() {
     <div className="header">
       <Logo />
       <nav className="nav-block">
-        <NavLink to="/uncontrolled-form">uncontrolled form</NavLink>
-        <NavLink to="/controlled-form">controlled form</NavLink>
+        <NavLink
+          className={({ isActive }) => (isActive ? 'active-link' : '')}
+          to="/"
+        >
+          Home
+        </NavLink>
+        <NavLink
+          className={({ isActive }) => (isActive ? 'active-link' : '')}
+          to="/uncontrolled-form"
+        >
+          uncontrolled form
+        </NavLink>
+        <NavLink
+          className={({ isActive }) => (isActive ? 'active-link' : '')}
+          to="/controlled-form"
+        >
+          controlled form
+        </NavLink>
       </nav>
     </div>
   );

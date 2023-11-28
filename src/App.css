@@ -37,4 +37,15 @@
   color: #fff;
   font-size: 18px;
   margin-right: 20px;
+  transition: 0.3ms ease-in;
+}
+.active-link {
+  border-bottom: 1px solid white;
+  transition: 0.3ms ease-in;
+}
+.home-page-header {
+  text-align: center;
+}
+.home-page-content-wrapper {
+  min-height: 600px;
 }
