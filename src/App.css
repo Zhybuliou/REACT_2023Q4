@@ -4,6 +4,7 @@
   margin: 0 auto;
   font-family: 'Star Wars', sans-serif;
   color: white;
+  background-color: cadetblue;
 }
 
 .header {
@@ -21,4 +22,19 @@
 }
 .logo-link {
   font-size: 42px;
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+}
+.nav-block {
+  max-width: 600px;
+  display: flex;
+  justify-content: start;
+}
+.nav-block a {
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #fff;
+  font-size: 18px;
+  margin-right: 20px;
 }

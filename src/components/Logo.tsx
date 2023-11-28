@@ -1,9 +1,11 @@
+import { Link } from 'react-router-dom';
+
 export default function Logo() {
   return (
     <div className="logo">
-      <a className="logo-link text-style" href="/pages/1">
-        Star Wars
-      </a>
+      <Link className="logo-link text-style" to="/">
+        React Forms
+      </Link>
     </div>
   );
 }
