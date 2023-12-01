@@ -137,17 +137,20 @@
   background-position: center;
   background-repeat: no-repeat;
   width: 100%;
-  height: 300px;
+  height: 200px;
   border-radius: 20px 20px 0px 0px;
   transition: ease all 0.3s;
 }
 .card-info {
-  height: 80px;
+  min-height: 180px;
   display: block;
   padding: 20px 10px 5px 10px;
   box-sizing: border-box;
   color: #666;
   font-family: 'Roboto', sans-serif;
+}
+.card-info ul {
+  list-style-type: none;
 }
 .date_ {
   font-family: 'Roboto', sans-serif;
