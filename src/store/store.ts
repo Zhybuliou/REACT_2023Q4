@@ -1,19 +1,18 @@
-import {
-  PreloadedState,
-  combineReducers,
-  configureStore,
-} from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
-import inputSearchReducer from './sliceSearchReducer';
+import formValuesSlice from './sliceFormReducer';
 
 export const rootReducer = combineReducers({
-  inputSearch: inputSearchReducer,
+  formValues: formValuesSlice,
 });
 
-export const setupStore = (preloadedState?: PreloadedState<RootState>) =>
+export const setupStore = () =>
   configureStore({
     reducer: rootReducer,
-    preloadedState,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: false,
+      }),
   });
 
 const store = setupStore();
