@@ -5,13 +5,18 @@ const getCharacterValidationError = (str: string) => {
 };
 const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
 
-const userScheme = yup.object().shape({
+const secondUserScheme = yup.object().shape({
   name: yup
     .string()
     .matches(/^[A-Z][A-Z,a-z, ]{1,19}$/, 'Please enter valid name')
     .max(40)
     .required('This field is Required'),
-  age: yup.number().positive('Please enter valid age').nullable(),
+  age: yup
+    .number()
+    .typeError('age must be a number')
+    .required('This field is Required')
+    .positive('Please enter valid age')
+    .nullable(),
   email: yup
     .string()
     .email('Please enter valid email')
@@ -28,20 +33,21 @@ const userScheme = yup.object().shape({
     .required('Please re-type your password')
     .oneOf([yup.ref('password')], 'Passwords does not match'),
   image: yup
-    .mixed<File>()
+    .mixed<FileList>()
+    .required('Please re-type your password')
     .test(
       'Check size image',
       'file size > 2MB',
-      (file) => !file || (file && file.size <= 2000000)
+      (file) => !file || (file && file[0].size <= 2000000)
     )
     .test(
       'Check format image',
       'you can use only jpg, png',
-      (value) => !value || (value && SUPPORTED_FORMATS.includes(value.type))
+      (value) => !value || (value && SUPPORTED_FORMATS.includes(value[0].type))
     ),
   gender: yup.string(),
   check: yup.string(),
   country: yup.string(),
 });
 
-export default userScheme;
+export default secondUserScheme;
