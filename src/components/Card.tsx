@@ -29,7 +29,7 @@ export default function Card({ card }: { card: IFormResult }) {
             </li>
             <li>
               <strong>Check: </strong>
-              {check}
+              {check || 'off'}
             </li>
             <li>
               <strong>Country: </strong>

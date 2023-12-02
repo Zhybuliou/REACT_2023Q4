@@ -32,7 +32,7 @@ const userScheme = yup.object().shape({
     .test(
       'Check size image',
       'upload file',
-      (value) => !value || (value && value.size <= 1024 * 1024)
+      (value) => !value || (value && value.size <= 2024 * 2024)
     )
     .test(
       'Check format image',
