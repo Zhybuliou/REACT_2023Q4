@@ -55,12 +55,14 @@ export default function FormPage() {
       const image = formValue.image as Blob;
       const { name, age, email, gender, check, country } = formValue;
       if (!Object.values(formValue).includes('')) {
-        await dispatch(
-          addFormValues({ name, age, email, gender, check, country, image })
-        );
-        navigate('/');
-      } else {
-        setButtonSubmit(true);
+        if (isFormValid) {
+          await dispatch(
+            addFormValues({ name, age, email, gender, check, country, image })
+          );
+          navigate('/');
+        } else {
+          setButtonSubmit(true);
+        }
       }
     }
   }
