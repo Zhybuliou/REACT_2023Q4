@@ -8,7 +8,7 @@ const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
 const userScheme = yup.object().shape({
   name: yup
     .string()
-    .matches(/^[A-Za-z ]*$/, 'Please enter valid name')
+    .matches(/^[A-Z][A-Z,a-z, ]{1,19}$/, 'Please enter valid name')
     .max(40)
     .required('This field is Required'),
   age: yup.number().positive('Please enter valid age').nullable(),

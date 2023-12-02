@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import update from 'immutability-helper';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addFormValues } from '../store/sliceFormReducer';
 import userScheme from '../validations/userValidation';
@@ -7,6 +8,7 @@ import userScheme from '../validations/userValidation';
 export default function FormPage() {
   const dispatch = useDispatch();
   const formState = useRef(null);
+  const navigate = useNavigate();
 
   const [errors, setErrors] = useState({
     name: false,
@@ -19,43 +21,50 @@ export default function FormPage() {
     password: false,
     confirmPassword: false,
   });
+  const [buttonSubmit, setButtonSubmit] = useState(true);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (formState.current) {
       const myForm = formState.current as HTMLFormElement;
-      const formObject = new FormData(myForm);
-      const formValue = Object.fromEntries(formObject.entries());
-      const isFormValid = await userScheme.isValid(formValue, {
-        abortEarly: false,
-      });
+      const formObject = await new FormData(myForm);
+      const formValue = await Object.fromEntries(formObject.entries());
+      const isFormValid = await userScheme.isValid(formValue);
 
       if (!isFormValid) {
-        userScheme.validate(formValue, { abortEarly: false }).catch((err) => {
-          const errorsData = err.inner.reduce(
-            (acc: { key: boolean }, error: { path: string }) => {
-              return {
-                ...acc,
-                [error.path]: true,
-              };
-            },
-            {}
-          );
+        await userScheme
+          .validate(formValue, { abortEarly: false })
+          .catch((err) => {
+            const errorsData = err.inner.reduce(
+              (acc: { key: boolean }, error: { path: string }) => {
+                return {
+                  ...acc,
+                  [error.path]: true,
+                };
+              },
+              {}
+            );
 
-          setErrors((prevErrors) =>
-            update(prevErrors, {
-              $set: errorsData,
-            })
-          );
-        });
+            setErrors((prevErrors) =>
+              update(prevErrors, {
+                $set: errorsData,
+              })
+            );
+          });
       }
       const image = formValue.image as Blob;
       const { name, age, email, gender, check, country } = formValue;
-      dispatch(
-        addFormValues({ name, age, email, gender, check, country, image })
-      );
+      if (!Object.values(formValue).includes('')) {
+        await dispatch(
+          addFormValues({ name, age, email, gender, check, country, image })
+        );
+        navigate('/');
+      } else {
+        setButtonSubmit(true);
+      }
     }
   }
+
   return (
     <div className="home-page">
       <div className="home-page-header">
@@ -64,6 +73,9 @@ export default function FormPage() {
       <div className="home-page-content-wrapper">
         <div className="form-page-content">
           <form
+            noValidate
+            autoComplete="off"
+            onChange={() => setButtonSubmit(false)}
             onSubmit={(e) => handleSubmit(e)}
             ref={formState}
             className="uncontrolled-form"
@@ -123,7 +135,6 @@ export default function FormPage() {
               type="text"
               name="country"
               list="country"
-              autoComplete="off"
             />
             <datalist id="country">
               <option>USA</option>
@@ -132,7 +143,11 @@ export default function FormPage() {
               <option>Spain</option>
               <option>Belarus</option>
             </datalist>
-            <button type="submit" className="button-submit">
+            <button
+              type="submit"
+              className="button-submit"
+              disabled={buttonSubmit}
+            >
               Submit
             </button>
           </form>
