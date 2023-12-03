@@ -27,6 +27,10 @@ const secondUserScheme = yup.object().shape({
     .min(8, 'Password must have at least 8 characters')
     .matches(/[0-9]/, getCharacterValidationError('digit'))
     .matches(/[a-z]/, getCharacterValidationError('lowercase'))
+    .matches(
+      /[$&+,:;=?@#|'<>.^*()%!-]/,
+      getCharacterValidationError('special character')
+    )
     .matches(/[A-Z]/, getCharacterValidationError('uppercase')),
   confirmPassword: yup
     .string()
@@ -42,7 +46,7 @@ const secondUserScheme = yup.object().shape({
     )
     .test(
       'Check format image',
-      'you can use only jpg, png',
+      'you can use only jpg, png, jpeg',
       (value) => !value || (value && SUPPORTED_FORMATS.includes(value[0].type))
     ),
   gender: yup.string(),

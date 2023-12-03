@@ -30,9 +30,18 @@ export default function SecondFormPage() {
   const onSubmit = (data: IFormInput) => {
     if (data.image) {
       const image = data.image[0] as Blob;
-      const { name, age, email, gender, check, country } = data;
+      const { name, age, email, gender, check, country, password } = data;
       dispatch(
-        addFormValues({ name, age, email, gender, check, country, image })
+        addFormValues({
+          name,
+          age,
+          email,
+          gender,
+          check,
+          country,
+          image,
+          password,
+        })
       );
       navigate('/');
     }

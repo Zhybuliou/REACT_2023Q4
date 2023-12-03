@@ -1,7 +1,7 @@
 import { IFormResult } from '../types/interface';
 
 export default function Card({ card }: { card: IFormResult }) {
-  const { image, name, age, email, gender, check, country } = card;
+  const { image, name, age, email, gender, check, country, password } = card;
   return (
     <div className="card" data-testid="card">
       <div className="wrapper-card">
@@ -28,8 +28,12 @@ export default function Card({ card }: { card: IFormResult }) {
               {gender}
             </li>
             <li>
-              <strong>Check: </strong>
+              <strong>T&C: </strong>
               {check || 'off'}
+            </li>
+            <li>
+              <strong>Password: </strong>
+              {password}
             </li>
             <li>
               <strong>Country: </strong>

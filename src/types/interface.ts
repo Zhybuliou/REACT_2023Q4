@@ -6,4 +6,5 @@ export type IFormResult = {
   check: string;
   image: Blob;
   country: string;
+  password?: string;
 };
