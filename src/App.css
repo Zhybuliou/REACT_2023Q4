@@ -176,3 +176,17 @@
   height: 10px;
   color: rgb(162, 1, 1);
 }
+.card:last-child {
+  animation: LineAnim 5s linear;
+}
+@keyframes LineAnim {
+  0% {
+    background-color: green;
+  }
+  50% {
+    background-color: red;
+  }
+  100% {
+    background-color: none;
+  }
+}

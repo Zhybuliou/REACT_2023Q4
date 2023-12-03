@@ -29,7 +29,7 @@ export default function Card({ card }: { card: IFormResult }) {
             </li>
             <li>
               <strong>T&C: </strong>
-              {check || 'off'}
+              {check ? 'yes' : 'no'}
             </li>
             <li>
               <strong>Password: </strong>
