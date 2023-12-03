@@ -26,7 +26,6 @@ export default function SecondFormPage() {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(secondUserScheme) });
-
   const onSubmit = (data: IFormInput) => {
     if (data.image) {
       const image = data.image[0] as Blob;
@@ -140,7 +139,7 @@ export default function SecondFormPage() {
             <button
               type="submit"
               className="button-submit"
-              // disabled={buttonSubmit}
+              disabled={!!Object.keys(errors).length}
             >
               Submit
             </button>

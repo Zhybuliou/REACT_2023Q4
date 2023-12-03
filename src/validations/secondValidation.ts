@@ -42,12 +42,12 @@ const secondUserScheme = yup.object().shape({
     .test(
       'Check size image',
       'file size > 2MB',
-      (file) => !file || (file && file[0].size <= 2000000)
+      (file) => file[0] && file[0].size <= 2000000
     )
     .test(
       'Check format image',
       'you can use only jpg, png, jpeg',
-      (value) => !value || (value && SUPPORTED_FORMATS.includes(value[0].type))
+      (value) => value[0] && SUPPORTED_FORMATS.includes(value[0].type)
     ),
   gender: yup.string(),
   check: yup.string(),
