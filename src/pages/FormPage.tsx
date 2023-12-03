@@ -141,7 +141,7 @@ export default function FormPage() {
             <input id="temp-image" type="file" name="image" />
             <div className="error-message-block">
               {errors.image &&
-                'Please enter valid image < 2MB format .png .jpeg'}
+                'Please enter valid image < 2MB format .png .jpeg .jpg'}
             </div>
             <label htmlFor="temp-country">Country :</label>
             <input
