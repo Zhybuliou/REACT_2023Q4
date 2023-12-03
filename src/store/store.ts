@@ -1,9 +1,11 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import formValuesSlice from './sliceFormReducer';
+import countrySlice from './sliceCountryReducer';
 
 export const rootReducer = combineReducers({
   formValues: formValuesSlice,
+  country: countrySlice,
 });
 
 export const setupStore = () =>

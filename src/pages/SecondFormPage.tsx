@@ -1,10 +1,11 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import secondUserScheme from '../validations/secondValidation';
 import { addFormValues } from '../store/sliceFormReducer';
+import { RootState } from '../store/store';
+import { addCountry } from '../store/sliceCountryReducer';
 
 interface IFormInput {
   age?: number | null | undefined;
@@ -19,6 +20,7 @@ interface IFormInput {
 }
 
 export default function SecondFormPage() {
+  const countries = useSelector((state: RootState) => state.country.country);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -30,6 +32,7 @@ export default function SecondFormPage() {
     if (data.image) {
       const image = data.image[0] as Blob;
       const { name, age, email, gender, check, country, password } = data;
+      dispatch(addCountry(country));
       dispatch(
         addFormValues({
           name,
@@ -130,11 +133,9 @@ export default function SecondFormPage() {
               {...register('country')}
             />
             <datalist id="country">
-              <option>USA</option>
-              <option>Canada</option>
-              <option>Poland</option>
-              <option>Spain</option>
-              <option>Belarus</option>
+              {countries.map((country) => (
+                <option key={country}>{country}</option>
+              ))}
             </datalist>
             <button
               type="submit"

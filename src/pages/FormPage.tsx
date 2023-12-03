@@ -1,11 +1,14 @@
 import { useRef, useState } from 'react';
 import update from 'immutability-helper';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addFormValues } from '../store/sliceFormReducer';
 import userScheme from '../validations/userValidation';
+import { RootState } from '../store/store';
+import { addCountry } from '../store/sliceCountryReducer';
 
 export default function FormPage() {
+  const countries = useSelector((state: RootState) => state.country.country);
   const dispatch = useDispatch();
   const formState = useRef(null);
   const navigate = useNavigate();
@@ -25,6 +28,7 @@ export default function FormPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setButtonSubmit(true);
     if (formState.current) {
       const myForm = formState.current as HTMLFormElement;
       const formObject = await new FormData(myForm);
@@ -53,15 +57,23 @@ export default function FormPage() {
           });
       }
       const image = formValue.image as Blob;
-      const { name, age, email, gender, check, country } = formValue;
+      const { name, age, email, gender, check, country, password } = formValue;
       if (!Object.values(formValue).includes('')) {
         if (isFormValid) {
+          await dispatch(addCountry(country));
           await dispatch(
-            addFormValues({ name, age, email, gender, check, country, image })
+            addFormValues({
+              name,
+              age,
+              email,
+              gender,
+              check,
+              country,
+              image,
+              password,
+            })
           );
           navigate('/');
-        } else {
-          setButtonSubmit(true);
         }
       }
     }
@@ -139,11 +151,9 @@ export default function FormPage() {
               list="country"
             />
             <datalist id="country">
-              <option>USA</option>
-              <option>Canada</option>
-              <option>Poland</option>
-              <option>Spain</option>
-              <option>Belarus</option>
+              {countries.map((country) => (
+                <option key={country}>{country}</option>
+              ))}
             </datalist>
             <button
               type="submit"
